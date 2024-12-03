@@ -1,11 +1,21 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
-  const [count, setCount] = useState(0)
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/nadav" element={<Nadav />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
 
+function Nadav() {
+  const [count, setCount] = useState(0);
   return (
     <>
       <div>
@@ -29,7 +39,7 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
