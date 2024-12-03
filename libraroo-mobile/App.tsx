@@ -6,8 +6,20 @@ export default function App() {
     <View style={styles.container}>
       <Text>Open up App.tsx to start working on your app!</Text>
       <StatusBar style="auto" />
+      <Donfil name='siag' />
     </View>
   );
+}
+
+interface DonfilProps {
+  name: string;
+}
+function Donfil({name}: DonfilProps) {
+  return(
+    <View>
+      <Text>{name}</Text>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
