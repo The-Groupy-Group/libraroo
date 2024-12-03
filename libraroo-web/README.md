@@ -48,3 +48,9 @@ export default tseslint.config({
   },
 })
 ```
+## ```.env``` file
+Place in project root
+```
+VITE_BASE_API_URL=http://localhost:3000
+VITE_PORT=3001
+```

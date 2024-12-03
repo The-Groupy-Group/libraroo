@@ -80,6 +80,13 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 - Website - [https://nestjs.com](https://nestjs.com/)
 - Twitter - [@nestframework](https://twitter.com/nestframework)
 
+## ```.env``` file
+Place in project root
+```
+DATABASE_CONNECTION_STRING=
+JWT_SECRET=
+```
+
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
