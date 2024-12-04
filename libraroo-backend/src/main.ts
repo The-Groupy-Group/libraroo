@@ -4,7 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  
+
   const config = new DocumentBuilder()
     .setTitle('Libraroo API ')
     .setDescription('this is api')
