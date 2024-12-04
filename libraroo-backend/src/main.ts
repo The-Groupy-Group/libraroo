@@ -7,7 +7,7 @@ async function bootstrap() {
   
   const config = new DocumentBuilder()
     .setTitle('Libraroo API ')
-    .setDescription('donfil')
+    .setDescription('this is api')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
