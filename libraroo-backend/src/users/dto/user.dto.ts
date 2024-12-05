@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ObjectId } from 'mongoose';
+import { Types } from 'mongoose';
 
 export class UserDto {
   @ApiProperty()
@@ -18,8 +18,5 @@ export class UserDto {
   email: string;
 
   @ApiProperty()
-  ownedBooksList?: ObjectId[];
-
-  @ApiProperty()
-  reliabilityRating?: number;
+  ownedBooksList: Types.ObjectId[];
 }

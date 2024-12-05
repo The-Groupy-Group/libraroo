@@ -1,8 +1,9 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Types } from 'mongoose';
+import { Types, Document } from 'mongoose';
+import { PhysicalBook } from 'src/physical-books/models/physical-book.model';
 
 @Schema()
-export class User {
+export class User extends Document {
   _id: string;
 
   @Prop({ required: true, unique: true })
@@ -17,14 +18,11 @@ export class User {
   @Prop({ required: true })
   lastName: string;
 
-  @Prop()
-  reliabilityRating?: number; //new users won't have rating yet(null?)
-
   @Prop({ required: true })
   address: string;
 
-  @Prop({ type: [{ type: Types.ObjectId, ref: 'PhysicalBook' }] })
-  ownedBooksList?: Types.ObjectId[]; //new users wont have books(null?)
+  @Prop({ type: [{ type: Types.ObjectId, ref: PhysicalBook.name }] })
+  ownedBooksList: Types.ObjectId[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

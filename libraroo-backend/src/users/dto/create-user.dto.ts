@@ -1,6 +1,5 @@
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { ObjectId } from 'mongoose';
 
 export class CreateUserDto {
   @IsString()
@@ -26,6 +25,4 @@ export class CreateUserDto {
   @IsNotEmpty()
   @ApiProperty({ example: 'Hadonfil 13', description: 'user address' })
   address: string;
-
-  ownedBooksList: ObjectId[];
 }

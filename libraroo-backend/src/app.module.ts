@@ -8,14 +8,13 @@ import { UsersModule } from './users/users.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath:
-        process.env.NODE_ENV === 'development' ? '.env.development' : '.env',
+
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        uri: configService.get<string>('DATABASE_URI'),
+        uri: configService.get<string>('DATABASE_CONNECTION_STRING'),
       }),
     }),
     UsersModule,

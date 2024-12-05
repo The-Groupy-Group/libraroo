@@ -9,6 +9,7 @@ export class UserMapper {
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
+      ownedBooksList: user.ownedBooksList,
     };
   }
 }
