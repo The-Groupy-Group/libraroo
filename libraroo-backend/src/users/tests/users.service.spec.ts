@@ -11,15 +11,17 @@ describe('UsersService', () => {
   let usersRepository: jest.Mocked<UsersRepository>;
 
   beforeEach(async () => {
+    const repositoryMock: Partial<jest.Mocked<UsersRepository>> = {
+      findByEmail: jest.fn(),
+      create: jest.fn()
+    };
+    
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         UsersService,
         {
           provide: UsersRepository,
-          useValue: {
-            findByEmail: jest.fn(),
-            create: jest.fn(),
-          },
+          useValue: repositoryMock,
         },
       ],
     }).compile();
