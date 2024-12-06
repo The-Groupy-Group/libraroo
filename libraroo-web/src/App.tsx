@@ -3,12 +3,15 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Register from "./users/components/Register";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/nadav" element={<Nadav />} />
+        <Route path="/register" element={<Register />} />
+
       </Routes>
     </BrowserRouter>
   );

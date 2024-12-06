@@ -2,7 +2,7 @@ import { Alert, Box, Button, Container, TextField } from "@mui/material";
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { UsersService } from "../services/users.service";
+import UsersService from "../services/users.service";
 
 const Register: React.FC = () => {
   const [firstName, setFirstName] = useState("");
@@ -29,7 +29,7 @@ const Register: React.FC = () => {
         address,
       });
 
-      await UsersService.login(email, password);
+      //await UsersService.login(email, password);
 
       navigate("/");
     } catch (err: any) {
@@ -41,6 +41,7 @@ const Register: React.FC = () => {
 
   return (
     <Container component="main" maxWidth="xs">
+        
       {error && (
         <Alert severity="error" sx={{ mt: 2 }}>
           {error}
@@ -51,7 +52,7 @@ const Register: React.FC = () => {
         onSubmit={handleSubmit}
         noValidate
         sx={{ mt: 1 }}
-      ></Box>
+      >
 
       <TextField
         margin="normal"
@@ -119,7 +120,10 @@ const Register: React.FC = () => {
         variant="contained"
         sx={{ mt: 3, mb: 2 }}
         disabled={loading}
-      ></Button>
+      >Register</Button>
+      </Box>
     </Container>
   );
 };
+
+export default Register;

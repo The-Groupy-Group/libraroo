@@ -1,5 +1,6 @@
 import { AxiosInstance } from "axios";
 import { CreateUserDto } from "../models/create-user.dto";
+import apiClient from "../../shared/api-client";
 
 class UsersService {
 
@@ -8,7 +9,9 @@ class UsersService {
     async register(request: CreateUserDto) {
         await this.apiClient.post(`users`, request);
     }
+
+    
 }
 
 
-export default UsersService;
+export default new UsersService(apiClient);
