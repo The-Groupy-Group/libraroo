@@ -2,7 +2,7 @@ import axios from "axios";
 //import usersService from "../users/services/users.service";
 import { StatusCodes } from "http-status-codes";
 
-const API_URL = ""; // TODO: get from env
+const API_URL = import.meta.env.VITE_API_URL;
 
 const axiosInstance = axios.create({
   baseURL: API_URL + "/api",
