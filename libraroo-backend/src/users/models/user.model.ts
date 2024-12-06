@@ -1,6 +1,6 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Types, Document } from 'mongoose';
-import { PhysicalBook } from 'src/physical-books/models/physical-book.model';
+import { PhysicalBook } from '../../physical-books/models/physical-book.model';
 
 @Schema()
 export class User extends Document {
