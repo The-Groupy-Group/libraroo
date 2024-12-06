@@ -4,9 +4,14 @@ on:
   push:
     branches:
       - main
+    paths:
+      - libraroo-backend/**
+      
   pull_request:
     branches:
       - main
+    paths:
+      - libraroo-backend/**
 
 jobs:
   build:
