@@ -5,90 +5,85 @@ import { CreateUserDto } from '../dto/create-user.dto';
 import { UsersRepository } from '../users.repository';
 import { User } from '../models/user.model';
 import { UserMapper } from '../user-mapper';
-import * as bcrypt from 'bcrypt';
 
 describe('UsersService', () => {
+  let service: UsersService;
+  let usersRepository: jest.Mocked<UsersRepository>;
 
-    let service: UsersService;
-    let userRepository: UsersRepository;
-
-    beforeEach(async () => {
-      const module: TestingModule = await Test.createTestingModule({
-        providers: [
-          UsersService,
-          {
-            provide: UsersRepository,
-            useValue: {
-              findByEmail: jest.fn(),
-              create: jest.fn(),
-            },
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        UsersService,
+        {
+          provide: UsersRepository,
+          useValue: {
+            findByEmail: jest.fn(),
+            create: jest.fn(),
           },
-        ],
-      }).compile();
+        },
+      ],
+    }).compile();
 
-      service = module.get<UsersService>(UsersService);
-      userRepository = module.get<UsersRepository>(UsersRepository);
+    service = module.get<UsersService>(UsersService);
+    usersRepository = module.get<UsersRepository, jest.Mocked<UsersRepository>>(
+      UsersRepository,
+    );
+  });
+
+  it('should be defined', () => {
+    expect(service).toBeDefined();
+  });
+
+  describe('create', () => {
+    it('should throw BadRequestException if email is already in use', async () => {
+      const createUserDto: CreateUserDto = {
+        firstName: 'John',
+        lastName: 'Doe',
+        email: 'test@example.com',
+        password: 'password',
+        address: '123 Main St',
+      };
+
+      usersRepository.findByEmail.mockResolvedValue({} as User);
+
+      await expect(service.create(createUserDto)).rejects.toThrow(
+        BadRequestException,
+      );
     });
 
-    it('should be defined', () => {
-      expect(service).toBeDefined();
-    });
+    it('should hash the password and save the user if email is not in use', async () => {
+      const createUserDto: CreateUserDto = {
+        firstName: 'John',
+        lastName: 'Doe',
+        email: 'test@example.com',
+        password: 'password',
+        address: '123 Main St',
+      };
 
-    describe('create', () => {
-      it('should throw BadRequestException if email is already in use', async () => {
-        const createUserDto: CreateUserDto = {
-          firstName: 'John',
-          lastName: 'Doe',
-          email: 'test@example.com',
-          password: 'password',
-          address: '123 Main St',
-        };
+      const createdUser: User = {
+        _id: '123',
+        firstName: createUserDto.firstName,
+        lastName: createUserDto.lastName,
+        email: createUserDto.email,
+        passwordHash: 'hashedPassword',
+        address: createUserDto.address,
+        ownedBooksList: [],
+      } as User;
 
-        jest.spyOn(userRepository, 'findByEmail').mockResolvedValueOnce({} as User);
+      usersRepository.findByEmail.mockResolvedValueOnce(null);
+      usersRepository.create.mockResolvedValueOnce(createdUser);
 
-        await expect(service.create(createUserDto)).rejects.toThrow(
-          BadRequestException,
-        );
+      const result = await service.create(createUserDto);
+
+      expect(usersRepository.create).toHaveBeenCalledWith({
+        firstName: createUserDto.firstName,
+        lastName: createUserDto.lastName,
+        email: createUserDto.email,
+        passwordHash: expect.any(String),
+        address: createUserDto.address,
       });
 
-      it('should hash the password and save the user if email is not in use', async () => {
-        const createUserDto: CreateUserDto = {
-          firstName: 'John',
-          lastName: 'Doe',
-          email: 'test@example.com',
-          password: 'password',
-          address: '123 Main St',
-        };
-
-        const hashedPassword = 'hashedPassword';
-
-        const createdUser: User = {
-          _id: '123',
-          firstName: createUserDto.firstName,
-          lastName: createUserDto.lastName,
-          email: createUserDto.email,
-          passwordHash: hashedPassword,
-          address: createUserDto.address,
-          ownedBooksList: [],
-        } as User;
-
-        jest.spyOn(userRepository, 'findByEmail').mockResolvedValueOnce(null);
-        jest.spyOn(userRepository, 'create').mockResolvedValueOnce(createdUser);
-        jest.spyOn(bcrypt, 'hash').mockResolvedValueOnce(hashedPassword as never);
-
-        const result = await service.create(createUserDto);
-
-        expect(userRepository.create).toHaveBeenCalledWith({
-          firstName: createUserDto.firstName,
-          lastName: createUserDto.lastName,
-          email: createUserDto.email,
-          passwordHash: hashedPassword,
-          address: createUserDto.address,
-        });
-
-        expect(result).toEqual(
-          UserMapper.toUserDto(createdUser),
-        );
-      });
+      expect(result).toEqual(UserMapper.toUserDto(createdUser));
     });
   });
+});
