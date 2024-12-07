@@ -6,10 +6,7 @@ import { UsersRepository } from './users.repository';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    //private readonly jwtService: JwtService,
-    private readonly userRepository: UsersRepository,
-  ) {}
+  constructor(private readonly userRepository: UsersRepository) {}
 
   async create(createUserDto: CreateUserDto) {
     if (await this.userRepository.findByEmail(createUserDto.email)) {
