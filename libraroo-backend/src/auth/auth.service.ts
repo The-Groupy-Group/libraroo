@@ -29,8 +29,7 @@ export class AuthService {
     password: string,
     hashedPassword: string,
   ): Promise<boolean> {
-    if (await compare(password, hashedPassword)) return true;
-    return false;
+    return await compare(password, hashedPassword);
   }
 
   private async createToken(user: User): Promise<string> {
@@ -38,7 +37,6 @@ export class AuthService {
       sub: user.id,
       email: user.email,
     };
-    const accessToken = await this.jwtService.signAsync(tokenPayload);
-    return accessToken;
+    return await this.jwtService.signAsync(tokenPayload);
   }
 }
