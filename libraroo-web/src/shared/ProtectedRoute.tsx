@@ -1,8 +1,8 @@
 import { Navigate } from "react-router-dom";
-//import usersService from "../../users/services/users.service";
+import usersService from "../users/services/users.service";
 
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
-  return true ? children : <Navigate to="/login" />; // TODO: Implement authentication
+  return usersService.isLoggedIn() ? children : <Navigate to="/login" />;
 };
 
 export default ProtectedRoute;

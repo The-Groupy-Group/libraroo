@@ -11,7 +11,7 @@ class UsersService {
 
   async login(email: string, password: string) {
     const response: AxiosResponse<{ accessToken: string }> =
-      await this.apiClient.post(`users/login`, { email, password });
+      await this.apiClient.post(`auth/login`, { email, password });
     const token = response.data.accessToken;
     sessionStorage.setItem("token", token);
   }
@@ -19,9 +19,13 @@ class UsersService {
   getToken() {
     return sessionStorage.getItem("token");
   }
-  
+
   logout() {
     sessionStorage.removeItem("token");
+  }
+
+  isLoggedIn() {
+    return this.getToken() !== null;
   }
 }
 
