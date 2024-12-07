@@ -35,7 +35,6 @@ describe('AuthService', () => {
     }).compile();
 
     authService = module.get<AuthService>(AuthService);
-    jwtService = module.get<JwtService>(JwtService);
     usersRepository = module.get<UsersRepository, jest.Mocked<UsersRepository>>(
       UsersRepository,
     );
