@@ -1,6 +1,6 @@
 import axios from "axios";
-//import usersService from "../users/services/users.service";
 import { StatusCodes } from "http-status-codes";
+import usersService from "../users/services/users.service";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -12,7 +12,7 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use((config) => {
-  const token = "";//usersService.getToken();
+  const token = usersService.getToken();
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -23,7 +23,7 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response.status === StatusCodes.UNAUTHORIZED) {
-      //usersService.logout();
+      usersService.logout();
       window.location.reload();
     }
     return Promise.reject(error);
