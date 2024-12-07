@@ -15,6 +15,14 @@ class UsersService {
     const token = response.data.accessToken;
     sessionStorage.setItem("token", token);
   }
+
+  getToken() {
+    return sessionStorage.getItem("token");
+  }
+  
+  logout() {
+    sessionStorage.removeItem("token");
+  }
 }
 
 export default new UsersService(apiClient);
