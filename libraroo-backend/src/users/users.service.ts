@@ -3,11 +3,11 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { hash } from 'bcrypt';
 import { UserMapper } from './user-mapper';
 import { UsersRepository } from './users.repository';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UsersService {
   constructor(
-    //private readonly jwtService: JwtService,
     private readonly userRepository: UsersRepository,
   ) {}
 
