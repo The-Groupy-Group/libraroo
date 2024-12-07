@@ -3,13 +3,10 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { hash } from 'bcrypt';
 import { UserMapper } from './user-mapper';
 import { UsersRepository } from './users.repository';
-import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    private readonly userRepository: UsersRepository,
-  ) {}
+  constructor(private readonly userRepository: UsersRepository) {}
 
   async create(createUserDto: CreateUserDto) {
     if (await this.userRepository.findByEmail(createUserDto.email)) {

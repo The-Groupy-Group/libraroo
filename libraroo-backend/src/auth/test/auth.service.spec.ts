@@ -11,7 +11,6 @@ import { BadRequestException } from '@nestjs/common';
 describe('AuthService', () => {
   let authService: AuthService;
   let usersRepository: jest.Mocked<UsersRepository>;
-  let jwtService: JwtService;
 
   beforeEach(async () => {
     const repositoryMock: Partial<jest.Mocked<UsersRepository>> = {
@@ -95,16 +94,6 @@ describe('AuthService', () => {
       email: 'Donfil@gmail.com',
       password: 'DonTheGreat',
     } as LoginDto;
-
-    const existingUser: User = {
-      email: 'Donfil@gmail.com',
-      passwordHash: '123421',
-      id: 123,
-      firstName: 'don',
-      lastName: 'fil',
-      address: 'Haondfil13',
-      ownedBooksList: [],
-    } as User;
 
     usersRepository.findByEmail.mockResolvedValueOnce(null);
     jest.spyOn(bcrypt, 'compare').mockResolvedValue(true as never);
