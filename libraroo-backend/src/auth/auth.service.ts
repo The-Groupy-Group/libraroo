@@ -1,6 +1,6 @@
 import { UsersRepository } from '../users/users.repository';
 import { LoginDto } from '../auth/dto/login.dto';
-import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { LoginResponseDto } from './dto/login-response.dto';
 import { compare } from 'bcrypt';
 import { ValidateResponseDto } from './dto/validate-response.dto';
@@ -28,10 +28,10 @@ export class AuthService {
   }
 
   async signIn(user: ValidateResponseDto): Promise<LoginResponseDto> {
-    const tokenPayload:JwtPayLoad={
+    const tokenPayload: JwtPayLoad = {
       sub: user.id,
-      email:user.email
-      }
+      email: user.email,
+    };
     const accessToken = await this.jwtService.signAsync(tokenPayload);
     return new LoginResponseDto(accessToken, user.id);
   }

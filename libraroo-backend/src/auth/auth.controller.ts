@@ -1,6 +1,15 @@
 import { LoginDto } from 'src/auth/dto/login.dto';
 
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, UseGuards,Request } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginResponseDto } from 'src/auth/dto/login-response.dto';
 import {
@@ -35,7 +44,7 @@ export class AuthController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @Get('me')
-  getUserInfo(@Request()request:ApiRequest){
-      return request.jwtPayLoad;
+  getUserInfo(@Request() request: ApiRequest) {
+    return request.jwtPayLoad;
   }
 }
