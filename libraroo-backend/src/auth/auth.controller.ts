@@ -1,5 +1,4 @@
 import { LoginDto } from 'src/auth/dto/login.dto';
-
 import {
   Body,
   Controller,
@@ -18,10 +17,9 @@ import {
   ApiOkResponse,
   ApiOperation,
   ApiResponse,
-  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { AuthGuard } from './guards/auth/auth.guard';
-import { ApiRequest } from 'src/shared/jwt/api-request';
+import { AuthGuard } from '../shared/guards/auth/auth.guard';
+import { ApiRequest } from 'src/shared/models/api-request';
 
 @Controller('auth')
 export class AuthController {
@@ -34,7 +32,6 @@ export class AuthController {
     description: 'LoginResponse',
     type: LoginResponseDto,
   })
-  @ApiUnauthorizedResponse()
   @ApiBadRequestResponse()
   @ApiResponse({ status: 400, description: 'bad request.' })
   login(@Body() input: LoginDto) {
@@ -42,6 +39,7 @@ export class AuthController {
   }
 
   @ApiBearerAuth()
+  @ApiBadRequestResponse()
   @UseGuards(AuthGuard)
   @Get('me')
   getUserInfo(@Request() request: ApiRequest) {
