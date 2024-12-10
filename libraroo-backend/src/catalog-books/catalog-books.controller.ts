@@ -14,7 +14,9 @@ export class CatalogBooksController {
     description: 'CatalogBookDto',
     type: CatalogBookDto,
   })
-  async create(@Body(ValidationPipe) createCatalogBookDto: CreateCatalogBookDto) {
+  async create(
+    @Body(ValidationPipe) createCatalogBookDto: CreateCatalogBookDto,
+  ) {
     return await this.catalogBooksService.create(createCatalogBookDto);
   }
 }

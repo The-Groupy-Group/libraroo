@@ -13,6 +13,6 @@ import { BooksApiService } from './books-api/books-api.service';
     ]),
   ],
   controllers: [CatalogBooksController],
-  providers: [CatalogBooksService, CatalogBooksRepository,BooksApiService],
+  providers: [CatalogBooksService, CatalogBooksRepository, BooksApiService],
 })
 export class CatalogBooksModule {}

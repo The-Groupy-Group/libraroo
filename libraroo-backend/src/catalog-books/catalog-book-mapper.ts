@@ -14,7 +14,7 @@ export class CatalogBookMapper {
     };
   }
 
-  static toCatalogBookDb(book:BookItem): Partial<CatalogBook> {
+  static toCatalogBookDb(book: BookItem): Partial<CatalogBook> {
     return {
       author: book.volumeInfo.authors[0],
       title: book.volumeInfo.title,
