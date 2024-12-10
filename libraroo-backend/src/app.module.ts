@@ -4,12 +4,12 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { PhysicalBookModule } from './physical-books/physical-books.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { CatalogBooksModule } from './catalog-books/catalog-books.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
@@ -20,7 +20,8 @@ import { AuthModule } from './auth/auth.module';
     }),
     UsersModule,
     PhysicalBookModule,
-    AuthModule
+    CatalogBooksModule,
+    AuthModule,
   ],
 })
 export class AppModule {}
