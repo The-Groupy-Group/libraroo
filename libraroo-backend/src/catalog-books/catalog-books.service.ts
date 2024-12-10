@@ -15,28 +15,48 @@ export class CatalogBooksService {
   async create(
     createCatalogBookDto: CreateCatalogBookDto,
   ): Promise<CatalogBookDto> {
-    const catalogBook = await this.catalogBookRepository.findByTitleAndAuthor(
-      //internal db check
-      createCatalogBookDto.author,
-      createCatalogBookDto.title,
-    );
+    const catalogBook =
+      await this.catalogBookRepository.findByTitleAuthorAndLanguage(
+        //internal db check
+        createCatalogBookDto.author,
+        createCatalogBookDto.title,
+        createCatalogBookDto.language,
+      );
     if (catalogBook) return CatalogBookMapper.toCatalogBookDto(catalogBook);
 
-    const res = await this.booksApiService.findByTitleAndAuthor(
+    const res = await this.booksApiService.findByTitleAuthorAndLanguage(
       //external api check
       createCatalogBookDto.author,
       createCatalogBookDto.title,
+      createCatalogBookDto.language,
     );
-    if (!res) throw new BadRequestException();//TODO make sure no matching book and not api error
+    if (res.data.totalItems == 0 || res.status !== 200)
+      throw new BadRequestException('No matching book found or API error');
+    const exactMatchBook = res.data.items.find((book: BookItem) => {
+      const authors = book.volumeInfo.authors || [];
+      const title = book.volumeInfo.title || '';
 
-    const newBookCatalog={
-      author=
-      title=
-      language=
-      image=
-      categories=
-    }
-    const savedBookCatalog=await this.catalogBookRepository.create()
+      // Ensure exact match between author and title in response
+      const isAuthorMatch = authors.some(
+        (author: string) =>
+          author.toLowerCase() === createCatalogBookDto.author.toLowerCase(),
+      );
+      const isTitleMatch =
+        title.toLowerCase() === createCatalogBookDto.title.toLowerCase();
+
+      return isAuthorMatch && isTitleMatch;
+    });
+
+    // Ensure exact match is found in the API response
+    if (!exactMatchBook)
+      throw new BadRequestException(
+        'No exact match found for the author and title',
+      );
+
+    const bookToSave = CatalogBookMapper.toCatalogBookDb(exactMatchBook);
+    const savedBookCatalog =
+      await this.catalogBookRepository.create(bookToSave);
+
     return CatalogBookMapper.toCatalogBookDto(savedBookCatalog);
   }
 }

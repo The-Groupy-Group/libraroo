@@ -14,4 +14,12 @@ export class CreateCatalogBookDto {
     description: 'title name',
   })
   title: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({
+    example: 'es',
+    description: 'language code',
+  })
+  language: string;
 }

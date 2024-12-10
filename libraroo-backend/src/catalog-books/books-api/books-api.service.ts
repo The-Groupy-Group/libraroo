@@ -1,18 +1,35 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class BooksApiService {
-  key:string;
-  axios:AxiosInstance
+  key: string;
+  baseUrl: string;
+  axios: AxiosInstance;
   constructor() {
-    this.key=process.env.API_KEY
-   this.axios=axios.create({
-      baseURL: process.env.BASE_API_URL,
+    this.key = process.env.API_KEY;
+    this.baseUrl = process.env.API_BASE_URL;
+    this.axios = axios.create({
+      baseURL: this.baseUrl,
     });
   }
-  async findByTitleAndAuthor(author:string,title:String):Promise<any> {//TODO write a type
-   const route= '?'+'author='+author+'&title='+title+'&maxResults=1'+'&key='+this.key;
-   const res=this.axios.get(route);
+  async findByTitleAuthorAndLanguage(
+    author: string,
+    title: String,
+    langCode: string,
+  ): Promise<AxiosResponse> {
+    const route =
+      '?q=' +
+      'inauthor:"' +
+      author +
+      '"' +
+      '+intitle:"' +
+      title +
+      '"' +
+      '&langRestrict=' +
+      langCode +
+      '&key=' +
+      this.key;
+    return await this.axios.get(route);
   }
 }
