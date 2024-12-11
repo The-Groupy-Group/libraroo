@@ -15,7 +15,7 @@ export class CatalogBook extends Document {
   language: string;
 
   @Prop({ required: true })
-  image: string;
+  imageUrl: string;
 
   @Prop({ required: true })
   categories: string[];

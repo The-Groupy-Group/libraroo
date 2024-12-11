@@ -14,7 +14,7 @@ export class CatalogBookDto {
   language: string;
 
   @ApiProperty()
-  image: string;
+  imageUrl: string;
 
   @ApiProperty()
   categories: string[];

@@ -4,9 +4,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { CatalogBooksService } from '../catalog-books.service';
 import { CatalogBooksRepository } from '../catalog-books.repository';
 import { CreateCatalogBookDto } from '../dto/create-catalog-book.dto';
-import { AxiosResponse } from 'axios';
 import { CatalogBookMapper } from '../catalog-book-mapper';
 import { BadRequestException } from '@nestjs/common';
+import { Books } from '../books-api/types/books-api.types';
 
 describe('CatalogBooksService', () => {
   let service: CatalogBooksService;
@@ -60,7 +60,7 @@ describe('CatalogBooksService', () => {
         author: 'Karen Armstrong',
         title: 'Jerusalem',
         language: 'en',
-        image: 'donfil.img',
+        imageUrl: 'donfil.img',
         categories: ['maor', 'maor2'],
       } as CatalogBook;
 
@@ -88,7 +88,7 @@ describe('CatalogBooksService', () => {
         author: 'Karen Armstrong',
         title: 'Jerusalem',
         language: 'en',
-        image: 'donfil.img',
+        imageUrl: 'donfil.img',
         categories: ['maor', 'maor2'],
       } as CatalogBook;
 
@@ -115,47 +115,40 @@ describe('CatalogBooksService', () => {
         author: 'Karen Armstrong',
         title: 'Jerusalem',
         language: 'en',
-        image:
+        imageUrl:
           'http://books.google.com/books/content?id=TZltAAAAMAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api',
         categories: ['History'],
       } as CatalogBook;
-      const apiResponse: AxiosResponse = {
-        data: {
-          items: [
-            {
-              volumeInfo: {
-                title: 'Jerusalem',
-                authors: ['Karen Armstrong'],
-                language: 'en',
-                categories: ['History'],
-                imageLinks: {
-                  thumbnail:
-                    'http://books.google.com/books/content?id=TZltAAAAMAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api',
-                },
+      const books: Books = {
+        totalItems: 1,
+        items: [
+          {
+            volumeInfo: {
+              title: 'Jerusalem',
+              authors: ['Karen Armstrong'],
+              language: 'en',
+              categories: ['History'],
+              imageLinks: {
+                thumbnail:
+                  'http://books.google.com/books/content?id=TZltAAAAMAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api',
               },
             },
-          ],
-        },
-        status: 200,
-        statusText: '',
-        headers: undefined,
-        config: undefined,
+          },
+        ],
       };
       catalogBooksRepository.findByTitleAuthorAndLanguage.mockResolvedValue(
         null,
       );
       catalogBooksRepository.create.mockResolvedValue(savedBook);
-      booksApiService.findByTitleAuthorAndLanguage.mockResolvedValue(
-        apiResponse,
-      );
+      booksApiService.findByTitleAuthorAndLanguage.mockResolvedValue(books);
       const res = await service.create(createCatalogBookDto);
 
       expect(catalogBooksRepository.create).toHaveBeenCalledWith({
-        author: apiResponse.data.items[0].volumeInfo.authors[0],
-        title: apiResponse.data.items[0].volumeInfo.title,
-        language: apiResponse.data.items[0].volumeInfo.language,
-        image: apiResponse.data.items[0].volumeInfo.imageLinks.thumbnail,
-        categories: apiResponse.data.items[0].volumeInfo.categories,
+        author: books.items[0].volumeInfo.authors[0],
+        title: books.items[0].volumeInfo.title,
+        language: books.items[0].volumeInfo.language,
+        imageUrl: books.items[0].volumeInfo.imageLinks.thumbnail,
+        categories: books.items[0].volumeInfo.categories,
       });
       expect(res).toEqual(CatalogBookMapper.toCatalogBookDto(savedBook));
     });
@@ -166,20 +159,12 @@ describe('CatalogBooksService', () => {
         title: 'Jerusalem',
         language: 'en',
       };
-      const apiResponse: AxiosResponse = {
-        data: {
-          items: [{}],
-        },
-        status: 400,
-        statusText: '',
-        headers: undefined,
-        config: undefined,
-      };
+
       catalogBooksRepository.findByTitleAuthorAndLanguage.mockResolvedValue(
         null,
       );
-      booksApiService.findByTitleAuthorAndLanguage.mockResolvedValue(
-        apiResponse,
+      booksApiService.findByTitleAuthorAndLanguage.mockRejectedValue(
+        new BadRequestException(),
       );
       await expect(service.create(createCatalogBookDto)).rejects.toThrow(
         BadRequestException,
@@ -192,23 +177,15 @@ describe('CatalogBooksService', () => {
         title: 'Jerusalem',
         language: 'en',
       };
-      const apiResponse: AxiosResponse = {
-        data: {
-          totalItems:0,
-          items: [{}],
-        },
-        status: 200,
-        statusText: '',
-        headers: undefined,
-        config: undefined,
+      const books: Books = {
+        totalItems: 0,
+        items: [],
       };
       catalogBooksRepository.findByTitleAuthorAndLanguage.mockResolvedValue(
         null,
       );
 
-      booksApiService.findByTitleAuthorAndLanguage.mockResolvedValue(
-        apiResponse,
-      );
+      booksApiService.findByTitleAuthorAndLanguage.mockResolvedValue(books);
       await expect(service.create(createCatalogBookDto)).rejects.toThrow(
         BadRequestException,
       );

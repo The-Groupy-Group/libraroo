@@ -85,8 +85,8 @@ Place in project root
 ```
 DATABASE_CONNECTION_STRING=
 JWT_SECRET=
-API_KEY=
-API_BASE_URL=
+GOOGLE_API_KEY=
+GOOGLE_API_BASE_URL=
 ```
 
 ## License

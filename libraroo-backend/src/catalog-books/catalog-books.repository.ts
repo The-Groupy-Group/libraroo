@@ -19,12 +19,13 @@ export class CatalogBooksRepository extends BaseRepository<CatalogBook> {
     title: string,
     language: string,
   ): Promise<CatalogBook | null> {
-    const authorPattern = `^${author.split(/\s+/).join('.*')}$`; //author and title should be perfect match(not case sensitive)
-    const titlePattern = `^${title.split(/\s+/).join('.*')}$`;
+    const authorFilter = this.getCaseInsensitiveRegexPattern(author);
+    const titleFilter = this.getCaseInsensitiveRegexPattern(title);
+    const languageFilter = this.getCaseInsensitiveRegexPattern(language);
     const filter: FilterQuery<CatalogBook> = {
-      author: new RegExp(authorPattern, 'i'),
-      title: new RegExp(titlePattern, 'i'),
-      language: new RegExp(language, 'i'),
+      author: authorFilter,
+      title: titleFilter,
+      language: languageFilter,
     };
     return this.catalogBooksModel.findOne(filter).exec();
   }

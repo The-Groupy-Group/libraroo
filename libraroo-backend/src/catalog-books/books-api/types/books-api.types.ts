@@ -1,4 +1,4 @@
-interface VolumeInfo {
+export interface VolumeInfo {
   title: string;
   authors: string[];
   language: string;
@@ -11,4 +11,9 @@ interface VolumeInfo {
 
 export interface BookItem {
   volumeInfo: VolumeInfo;
+}
+
+export interface Books {
+  totalItems: number;
+  items: BookItem[];
 }

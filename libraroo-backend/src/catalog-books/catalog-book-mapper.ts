@@ -9,7 +9,7 @@ export class CatalogBookMapper {
       author: catalogBook.author,
       title: catalogBook.title,
       language: catalogBook.language,
-      image: catalogBook.image,
+      imageUrl: catalogBook.imageUrl,
       categories: catalogBook.categories,
     };
   }
@@ -18,7 +18,7 @@ export class CatalogBookMapper {
     return {
       author: book.volumeInfo.authors[0],
       title: book.volumeInfo.title,
-      image: book.volumeInfo.imageLinks.thumbnail,
+      imageUrl: book.volumeInfo.imageLinks.thumbnail,
       categories: book.volumeInfo.categories,
       language: book.volumeInfo.language,
     };

@@ -4,10 +4,18 @@ import {
   ApiOperation,
 } from '@nestjs/swagger';
 import { CatalogBooksService } from './catalog-books.service';
-import { Body, Controller, Post, ValidationPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  UseGuards,
+  ValidationPipe,
+} from '@nestjs/common';
 import { CatalogBookDto } from './dto/catalog-book.dto';
 import { CreateCatalogBookDto } from './dto/create-catalog-book.dto';
+import { AuthGuard } from 'src/shared/guards/auth/auth.guard';
 
+@UseGuards(AuthGuard)
 @Controller('catalog-books')
 export class CatalogBooksController {
   constructor(private readonly catalogBooksService: CatalogBooksService) {}

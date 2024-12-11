@@ -1,5 +1,5 @@
 import { CatalogBookMapper } from './catalog-book-mapper';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateCatalogBookDto } from './dto/create-catalog-book.dto';
 import { CatalogBooksRepository } from './catalog-books.repository';
 import { CatalogBookDto } from './dto/catalog-book.dto';
@@ -25,19 +25,39 @@ export class CatalogBooksService {
       );
     if (catalogBook) return CatalogBookMapper.toCatalogBookDto(catalogBook);
 
-    const res = await this.booksApiService.findByTitleAuthorAndLanguage(
+    const books = await this.booksApiService.findByTitleAuthorAndLanguage(
       //external api check
       createCatalogBookDto.author,
       createCatalogBookDto.title,
       createCatalogBookDto.language,
     );
-    if (res.data.totalItems == 0 || res.status !== 200)
-      throw new BadRequestException('No matching book found or API error');
-    const exactMatchBook = res.data.items.find((book: BookItem) => {
+    if (books.totalItems == 0)
+      throw new BadRequestException('This book doesnt exist');
+    const exactMatchBook = this.ensureMatch(books.items, createCatalogBookDto);
+
+    if (!exactMatchBook)
+      throw new BadRequestException('This book doesnt exist');
+
+    const bookToSave = CatalogBookMapper.toCatalogBookDb(exactMatchBook);
+    const savedBookCatalog =
+      await this.catalogBookRepository.create(bookToSave);
+
+    return CatalogBookMapper.toCatalogBookDto(savedBookCatalog);
+  }
+
+  /**
+   *
+   * @param books
+   * @param createCatalogBookDto
+   * @returns One book after removing similar titles/authors to exact full names
+   */
+  private ensureMatch(
+    books: BookItem[],
+    createCatalogBookDto: CreateCatalogBookDto,
+  ): BookItem {
+    return books.find((book: BookItem) => {
       const authors = book.volumeInfo.authors || [];
       const title = book.volumeInfo.title || '';
-
-      // Ensure exact match between author and title in response(not case sensitive)
       const isAuthorMatch = authors.some(
         (author: string) =>
           author.toLowerCase() === createCatalogBookDto.author.toLowerCase(),
@@ -47,16 +67,5 @@ export class CatalogBooksService {
 
       return isAuthorMatch && isTitleMatch;
     });
-
-    if (!exactMatchBook)
-      throw new BadRequestException(
-        'No exact match found for the author and title',
-      );
-
-    const bookToSave = CatalogBookMapper.toCatalogBookDb(exactMatchBook);
-    const savedBookCatalog =
-      await this.catalogBookRepository.create(bookToSave);
-
-    return CatalogBookMapper.toCatalogBookDto(savedBookCatalog);
   }
 }
