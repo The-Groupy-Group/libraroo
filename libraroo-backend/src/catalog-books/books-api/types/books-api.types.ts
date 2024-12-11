@@ -11,5 +11,4 @@ interface VolumeInfo {
 
 interface BookItem {
   volumeInfo: VolumeInfo;
-  // Other fields from Google API can be added here if needed
 }

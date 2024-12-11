@@ -1,4 +1,3 @@
-import { AxiosResponse } from 'axios';
 import { CatalogBookDto } from './dto/catalog-book.dto';
 import { CatalogBook } from './models/catalog-book.model';
 
