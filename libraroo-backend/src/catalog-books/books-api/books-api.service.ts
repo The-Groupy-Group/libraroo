@@ -1,8 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { Books } from './types/books-api.types';
+import { BooksApiResponse } from './types/books-api.types';
 import { firstValueFrom } from 'rxjs';
 
+const MAX_PAGINATION = 40;//the api's limit
 @Injectable()
 export class BooksApiService {
   key: string;
@@ -12,17 +13,19 @@ export class BooksApiService {
   }
   async findByTitleAuthorAndLanguage(
     author: string,
-    title: String,
+    title: string,
     langCode: string,
-  ): Promise<Books> {
-    const route = `?q=inauthor:"${author}"+intitle:"${title}"&langRestrict=${langCode}&key=${this.key}`;
+  ): Promise<BooksApiResponse> {
+    const route = `/books/v1/volumes?q=inauthor:"${author}"+intitle:"${title}"&langRestrict=${langCode}&maxResults=${MAX_PAGINATION}&key=${this.key}`;
 
     try {
-      const res = await firstValueFrom(this.httpService.get(route));
+      const res = await firstValueFrom(
+        this.httpService.get<BooksApiResponse>(route),
+      );
       return res.data;
     } catch (error) {
       console.log(error);
-      throw new BadRequestException('api encountered an error');
+      throw new InternalServerErrorException('Something went wrong');
     }
   }
 }

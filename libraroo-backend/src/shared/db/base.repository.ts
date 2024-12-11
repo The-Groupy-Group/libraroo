@@ -25,7 +25,7 @@ export abstract class BaseRepository<T extends Document> {
     return this.model.findByIdAndDelete(id).exec();
   }
 
-  protected getCaseInsensitiveRegexPattern(value: string):FilterQuery<any> {  
+  protected getCaseInsensitiveRegexPattern(value: string):FilterQuery<T> {  
     return { $regex: `^${value}$`, $options: 'i' };  
   }  
 }

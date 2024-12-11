@@ -13,7 +13,7 @@ export interface BookItem {
   volumeInfo: VolumeInfo;
 }
 
-export interface Books {
+export interface BooksApiResponse {
   totalItems: number;
   items: BookItem[];
 }

@@ -6,7 +6,7 @@ import { CatalogBooksRepository } from '../catalog-books.repository';
 import { CreateCatalogBookDto } from '../dto/create-catalog-book.dto';
 import { CatalogBookMapper } from '../catalog-book-mapper';
 import { BadRequestException } from '@nestjs/common';
-import { Books } from '../books-api/types/books-api.types';
+import { BooksApiResponse } from '../books-api/types/books-api.types';
 
 describe('CatalogBooksService', () => {
   let service: CatalogBooksService;
@@ -119,7 +119,7 @@ describe('CatalogBooksService', () => {
           'http://books.google.com/books/content?id=TZltAAAAMAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api',
         categories: ['History'],
       } as CatalogBook;
-      const books: Books = {
+      const books: BooksApiResponse = {
         totalItems: 1,
         items: [
           {
@@ -177,7 +177,7 @@ describe('CatalogBooksService', () => {
         title: 'Jerusalem',
         language: 'en',
       };
-      const books: Books = {
+      const books: BooksApiResponse = {
         totalItems: 0,
         items: [],
       };
