@@ -166,15 +166,6 @@ describe('CatalogBooksService', () => {
         title: 'Jerusalem',
         language: 'en',
       };
-      const savedBook: CatalogBook = {
-        _id: '123',
-        author: 'Karen Armstrong',
-        title: 'Jerusalem',
-        language: 'en',
-        image:
-          'http://books.google.com/books/content?id=TZltAAAAMAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api',
-        categories: ['History'],
-      } as CatalogBook;
       const apiResponse: AxiosResponse = {
         data: {
           items: [{}],
@@ -187,7 +178,6 @@ describe('CatalogBooksService', () => {
       catalogBooksRepository.findByTitleAuthorAndLanguage.mockResolvedValue(
         null,
       );
-      //  catalogBooksRepository.create.mockResolvedValue(savedBook);
       booksApiService.findByTitleAuthorAndLanguage.mockResolvedValue(
         apiResponse,
       );
@@ -202,15 +192,6 @@ describe('CatalogBooksService', () => {
         title: 'Jerusalem',
         language: 'en',
       };
-      const savedBook: CatalogBook = {
-        _id: '123',
-        author: 'Karen Armstrong',
-        title: 'Jerusalem',
-        language: 'en',
-        image:
-          'http://books.google.com/books/content?id=TZltAAAAMAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api',
-        categories: ['History'],
-      } as CatalogBook;
       const apiResponse: AxiosResponse = {
         data: {
           totalItems:0,
