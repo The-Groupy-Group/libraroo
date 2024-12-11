@@ -1,3 +1,4 @@
+import { BookItem } from './books-api/types/books-api.types';
 import { CatalogBookDto } from './dto/catalog-book.dto';
 import { CatalogBook } from './models/catalog-book.model';
 

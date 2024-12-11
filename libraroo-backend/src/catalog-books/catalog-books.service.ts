@@ -4,6 +4,7 @@ import { CreateCatalogBookDto } from './dto/create-catalog-book.dto';
 import { CatalogBooksRepository } from './catalog-books.repository';
 import { CatalogBookDto } from './dto/catalog-book.dto';
 import { BooksApiService } from './books-api/books-api.service';
+import { BookItem } from './books-api/types/books-api.types';
 
 @Injectable()
 export class CatalogBooksService {

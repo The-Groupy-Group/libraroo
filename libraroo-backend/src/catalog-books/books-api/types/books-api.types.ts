@@ -9,6 +9,6 @@ interface VolumeInfo {
   categories?: string[];
 }
 
-interface BookItem {
+export interface BookItem {
   volumeInfo: VolumeInfo;
 }
