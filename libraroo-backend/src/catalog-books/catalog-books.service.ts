@@ -36,7 +36,7 @@ export class CatalogBooksService {
       const authors = book.volumeInfo.authors || [];
       const title = book.volumeInfo.title || '';
 
-      // Ensure exact match between author and title in response
+      // Ensure exact match between author and title in response(not case sensitive)
       const isAuthorMatch = authors.some(
         (author: string) =>
           author.toLowerCase() === createCatalogBookDto.author.toLowerCase(),
@@ -47,7 +47,6 @@ export class CatalogBooksService {
       return isAuthorMatch && isTitleMatch;
     });
 
-    // Ensure exact match is found in the API response
     if (!exactMatchBook)
       throw new BadRequestException(
         'No exact match found for the author and title',

@@ -19,7 +19,7 @@ export class CatalogBooksRepository extends BaseRepository<CatalogBook> {
     title: string,
     language: string,
   ): Promise<CatalogBook | null> {
-    const authorPattern = `^${author.split(/\s+/).join('.*')}$`;
+    const authorPattern = `^${author.split(/\s+/).join('.*')}$`; //author and title should be perfect match(not case sensitive)
     const titlePattern = `^${title.split(/\s+/).join('.*')}$`;
     const filter: FilterQuery<CatalogBook> = {
       author: new RegExp(authorPattern, 'i'),
