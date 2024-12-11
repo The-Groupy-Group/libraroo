@@ -8,7 +8,6 @@ import { BooksApiService } from './books-api/books-api.service';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
-const googleApiUrl = process.env.GOOGLE_API_BASE_URL;
 @Module({
   imports: [
     MongooseModule.forFeature([

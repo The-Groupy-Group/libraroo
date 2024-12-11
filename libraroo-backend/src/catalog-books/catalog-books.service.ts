@@ -1,5 +1,5 @@
 import { CatalogBookMapper } from './catalog-book-mapper';
-import { BadRequestException, HttpStatus, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateCatalogBookDto } from './dto/create-catalog-book.dto';
 import { CatalogBooksRepository } from './catalog-books.repository';
 import { CatalogBookDto } from './dto/catalog-book.dto';
