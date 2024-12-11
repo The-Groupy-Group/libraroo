@@ -41,6 +41,7 @@ export class AuthController {
   @ApiBearerAuth()
   @ApiBadRequestResponse()
   @UseGuards(AuthGuard)
+  @ApiOperation({ summary: 'retrieve current user JwtPayload' })
   @Get('me')
   getUserInfo(@Request() request: ApiRequest) {
     return request.jwtPayLoad;
