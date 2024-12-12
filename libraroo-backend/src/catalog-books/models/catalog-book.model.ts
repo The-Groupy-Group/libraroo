@@ -2,7 +2,7 @@ import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
 @Schema()
-export class CatalogBook extends Document {
+export class CatalogBook {
   _id: string;
 
   @Prop({ required: true })
@@ -21,4 +21,7 @@ export class CatalogBook extends Document {
   categories: string[];
 }
 
-export const CatalogBookSchema = SchemaFactory.createForClass(CatalogBook);
+export type CatalogBookDocument = CatalogBook & Document;
+
+export const CatalogBookSchema =
+  SchemaFactory.createForClass(CatalogBook);

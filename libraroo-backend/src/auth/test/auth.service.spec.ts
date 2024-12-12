@@ -50,12 +50,12 @@ describe('AuthService', () => {
       const existingUser: User = {
         email: 'Donfil@gmail.com',
         passwordHash: '123421',
-        id: 123,
+        _id: "123",
         firstName: 'don',
         lastName: 'fil',
         address: 'Haondfil13',
         ownedBooksList: [],
-      } as User;
+      };
 
       usersRepository.findByEmail.mockResolvedValueOnce(existingUser);
       jest.spyOn(bcrypt, 'compare').mockResolvedValue(true as never);
@@ -74,12 +74,12 @@ describe('AuthService', () => {
     const existingUser: User = {
       email: 'Donfil@gmail.com',
       passwordHash: '123421',
-      id: 123,
+      _id: "123",
       firstName: 'don',
       lastName: 'fil',
       address: 'Haondfil13',
       ownedBooksList: [],
-    } as User;
+    };
 
     usersRepository.findByEmail.mockResolvedValueOnce(existingUser);
     jest.spyOn(bcrypt, 'compare').mockResolvedValue(false as never);

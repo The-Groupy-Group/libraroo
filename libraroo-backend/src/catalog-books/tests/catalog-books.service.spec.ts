@@ -62,7 +62,7 @@ describe('CatalogBooksService', () => {
         language: 'en',
         imageUrl: 'donfil.img',
         categories: ['maor', 'maor2'],
-      } as CatalogBook;
+      };
 
       catalogBooksRepository.findByTitleAuthorAndLanguage.mockResolvedValue(
         existingBook,
@@ -90,7 +90,7 @@ describe('CatalogBooksService', () => {
         language: 'en',
         imageUrl: 'donfil.img',
         categories: ['maor', 'maor2'],
-      } as CatalogBook;
+      };
 
       catalogBooksRepository.findByTitleAuthorAndLanguage.mockResolvedValue(
         existingBook,
@@ -118,7 +118,7 @@ describe('CatalogBooksService', () => {
         imageUrl:
           'http://books.google.com/books/content?id=TZltAAAAMAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api',
         categories: ['History'],
-      } as CatalogBook;
+      };
       const books: BooksApiResponse = {
         totalItems: 1,
         items: [

@@ -13,9 +13,9 @@ describe('UsersService', () => {
   beforeEach(async () => {
     const repositoryMock: Partial<jest.Mocked<UsersRepository>> = {
       findByEmail: jest.fn(),
-      create: jest.fn()
+      create: jest.fn(),
     };
-    
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         UsersService,
@@ -70,7 +70,7 @@ describe('UsersService', () => {
         passwordHash: 'hashedPassword',
         address: createUserDto.address,
         ownedBooksList: [],
-      } as User;
+      };
 
       usersRepository.findByEmail.mockResolvedValueOnce(null);
       usersRepository.create.mockResolvedValueOnce(createdUser);
