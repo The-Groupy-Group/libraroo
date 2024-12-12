@@ -1,5 +1,4 @@
 import { Schema, SchemaFactory } from '@nestjs/mongoose';
-import e from 'express';
 
 @Schema()
 export class PhysicalBook {
