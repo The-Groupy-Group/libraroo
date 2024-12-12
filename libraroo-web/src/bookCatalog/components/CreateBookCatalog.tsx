@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import BookCatalogService from "../services/bookCatalog.service";
+import bookCatalogService  from "../services/bookCatalog.service";
 import { Alert, Box, Button, Container, TextField } from "@mui/material";
 
-const CreateBookCatalog: React.FC = () => {
+export const CreateBookCatalog: React.FC = () => {
   const [author, setAuthor] = useState("");
   const [title, setTitle] = useState("");
   const [language, setLanguage] = useState("");
@@ -18,15 +18,15 @@ const CreateBookCatalog: React.FC = () => {
     setError(null); // Clear previous errors
 
     try {
-      await BookCatalogService.addBookCatalog({
+      await bookCatalogService .addBookCatalog({
         author,
         title,
         language,
       });
 
-      navigate("/");
+      // TODO : Navigate to book catalog list screen.
     } catch (err: any) {
-      setError("Invalid email or password");
+      setError("An error occured while trying to add book, check and try again.");
     } finally {
       setLoading(false);
     }
@@ -93,5 +93,3 @@ const CreateBookCatalog: React.FC = () => {
     </Container>
   );
 };
-
-export default CreateBookCatalog;

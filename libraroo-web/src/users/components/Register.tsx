@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UsersService from "../services/users.service";
 
-const Register: React.FC = () => {
+export const Register: React.FC = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -125,5 +125,3 @@ const Register: React.FC = () => {
     </Container>
   );
 };
-
-export default Register;
