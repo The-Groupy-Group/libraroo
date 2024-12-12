@@ -22,7 +22,7 @@ export class CatalogBooksRepository extends BaseRepository<CatalogBook> {
     const authorFilter = this.getCaseInsensitiveRegexPattern(author);
     const titleFilter = this.getCaseInsensitiveRegexPattern(title);
     const languageFilter = this.getCaseInsensitiveRegexPattern(language);
-    const filter: FilterQuery<CatalogBook> = {
+    const filter: FilterQuery<CatalogBookDocument> = {
       author: authorFilter,
       title: titleFilter,
       language: languageFilter,
