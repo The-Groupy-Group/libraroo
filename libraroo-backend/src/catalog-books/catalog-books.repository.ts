@@ -6,7 +6,7 @@ import { CatalogBook, CatalogBookDocument } from './models/catalog-book.model';
 import { FilterQuery } from 'mongoose';
 
 @Injectable()
-export class CatalogBooksRepository extends BaseRepository<CatalogBookDocument> {
+export class CatalogBooksRepository extends BaseRepository<CatalogBook> {
   constructor(
     @InjectModel(CatalogBook.name)
     private catalogBooksModel: Model<CatalogBookDocument>,

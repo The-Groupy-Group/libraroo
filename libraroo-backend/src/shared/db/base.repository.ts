@@ -1,12 +1,12 @@
 
-import { Model, Document, FilterQuery } from 'mongoose';
+import { Model, Document, FilterQuery, UpdateQuery } from 'mongoose';
 
-export abstract class BaseRepository<T extends Document> {
-  protected constructor(protected readonly model: Model<T>) {}
+export abstract class BaseRepository<T> {
+  protected constructor(protected readonly model: Model<T & Document>) {}
 
   async create(data: Partial<T>): Promise<T> {
     const createdDocument = new this.model(data);
-    return createdDocument.save();
+    return createdDocument.save() as T;
   }
 
   async findAll(): Promise<T[]> {
@@ -18,7 +18,8 @@ export abstract class BaseRepository<T extends Document> {
   }
 
   async update(id: string, updateData: Partial<T>): Promise<T | null> {
-    return this.model.findByIdAndUpdate(id, updateData, { new: true }).exec();
+    const updateQuery = updateData as UpdateQuery<T & Document>;
+    return this.model.findByIdAndUpdate(id, updateQuery, { new: true }).exec();
   }
 
   async delete(id: string): Promise<T | null> {

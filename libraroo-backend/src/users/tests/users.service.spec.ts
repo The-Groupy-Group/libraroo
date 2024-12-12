@@ -3,7 +3,7 @@ import { UsersService } from '../users.service';
 import { BadRequestException } from '@nestjs/common';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UsersRepository } from '../users.repository';
-import { UserDocument } from '../models/user.model';
+import { User } from '../models/user.model';
 import { UserMapper } from '../user-mapper';
 
 describe('UsersService', () => {
@@ -46,7 +46,7 @@ describe('UsersService', () => {
         address: '123 Main St',
       };
 
-      usersRepository.findByEmail.mockResolvedValue({} as UserDocument);
+      usersRepository.findByEmail.mockResolvedValue({} as User);
 
       await expect(service.create(createUserDto)).rejects.toThrow(
         BadRequestException,
@@ -62,7 +62,7 @@ describe('UsersService', () => {
         address: '123 Main St',
       };
 
-      const createdUser: UserDocument = {
+      const createdUser: User = {
         _id: '123',
         firstName: createUserDto.firstName,
         lastName: createUserDto.lastName,
@@ -70,7 +70,7 @@ describe('UsersService', () => {
         passwordHash: 'hashedPassword',
         address: createUserDto.address,
         ownedBooksList: [],
-      } as UserDocument;
+      };
 
       usersRepository.findByEmail.mockResolvedValueOnce(null);
       usersRepository.create.mockResolvedValueOnce(createdUser);

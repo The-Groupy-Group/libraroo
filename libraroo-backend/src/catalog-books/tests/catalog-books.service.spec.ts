@@ -1,4 +1,4 @@
-import { CatalogBook, CatalogBookDocument } from './../models/catalog-book.model';
+import { CatalogBook } from './../models/catalog-book.model';
 import { BooksApiService } from './../books-api/books-api.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import { CatalogBooksService } from '../catalog-books.service';
@@ -62,7 +62,7 @@ describe('CatalogBooksService', () => {
         language: 'en',
         imageUrl: 'donfil.img',
         categories: ['maor', 'maor2'],
-      } as CatalogBook;
+      };
 
       catalogBooksRepository.findByTitleAuthorAndLanguage.mockResolvedValue(
         existingBook,
@@ -90,7 +90,7 @@ describe('CatalogBooksService', () => {
         language: 'en',
         imageUrl: 'donfil.img',
         categories: ['maor', 'maor2'],
-      } as CatalogBook;
+      };
 
       catalogBooksRepository.findByTitleAuthorAndLanguage.mockResolvedValue(
         existingBook,
@@ -110,7 +110,7 @@ describe('CatalogBooksService', () => {
         title: 'Jerusalem',
         language: 'en',
       };
-      const savedBook: CatalogBookDocument = {
+      const savedBook: CatalogBook = {
         _id: '123',
         author: 'Karen Armstrong',
         title: 'Jerusalem',
@@ -118,7 +118,7 @@ describe('CatalogBooksService', () => {
         imageUrl:
           'http://books.google.com/books/content?id=TZltAAAAMAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api',
         categories: ['History'],
-      } as CatalogBookDocument;
+      };
       const books: BooksApiResponse = {
         totalItems: 1,
         items: [
