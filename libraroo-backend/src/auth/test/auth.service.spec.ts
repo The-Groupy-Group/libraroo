@@ -4,7 +4,7 @@ import { UsersRepository } from '../../users/users.repository';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from '../dto/login.dto';
 import { LoginResponseDto } from '../dto/login-response.dto';
-import { User } from '../../users/models/user.model';
+import { UserDocument } from '../../users/models/user.model';
 import * as bcrypt from 'bcrypt';
 import { BadRequestException } from '@nestjs/common';
 
@@ -47,7 +47,7 @@ describe('AuthService', () => {
         password: 'DonTheGreat',
       } as LoginDto;
 
-      const existingUser: User = {
+      const existingUser: UserDocument = {
         email: 'Donfil@gmail.com',
         passwordHash: '123421',
         id: 123,
@@ -55,7 +55,7 @@ describe('AuthService', () => {
         lastName: 'fil',
         address: 'Haondfil13',
         ownedBooksList: [],
-      } as User;
+      } as UserDocument;
 
       usersRepository.findByEmail.mockResolvedValueOnce(existingUser);
       jest.spyOn(bcrypt, 'compare').mockResolvedValue(true as never);
@@ -71,7 +71,7 @@ describe('AuthService', () => {
       password: 'DonTheGreat',
     } as LoginDto;
 
-    const existingUser: User = {
+    const existingUser: UserDocument = {
       email: 'Donfil@gmail.com',
       passwordHash: '123421',
       id: 123,
@@ -79,7 +79,7 @@ describe('AuthService', () => {
       lastName: 'fil',
       address: 'Haondfil13',
       ownedBooksList: [],
-    } as User;
+    } as UserDocument;
 
     usersRepository.findByEmail.mockResolvedValueOnce(existingUser);
     jest.spyOn(bcrypt, 'compare').mockResolvedValue(false as never);

@@ -3,7 +3,7 @@ import { Types, Document } from 'mongoose';
 import { PhysicalBook } from '../../physical-books/models/physical-book.model';
 
 @Schema()
-export class User extends Document {
+export class User {
   _id: string;
 
   @Prop({ required: true, unique: true })
@@ -24,5 +24,7 @@ export class User extends Document {
   @Prop({ type: [{ type: Types.ObjectId, ref: PhysicalBook.name }] })
   ownedBooksList: Types.ObjectId[];
 }
+
+export type UserDocument = User & Document;
 
 export const UserSchema = SchemaFactory.createForClass(User);

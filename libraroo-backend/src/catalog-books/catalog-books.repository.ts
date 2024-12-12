@@ -2,14 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { BaseRepository } from '../shared/db/base.repository';
-import { CatalogBook } from './models/catalog-book.model';
+import { CatalogBook, CatalogBookDocument } from './models/catalog-book.model';
 import { FilterQuery } from 'mongoose';
 
 @Injectable()
-export class CatalogBooksRepository extends BaseRepository<CatalogBook> {
+export class CatalogBooksRepository extends BaseRepository<CatalogBookDocument> {
   constructor(
     @InjectModel(CatalogBook.name)
-    private catalogBooksModel: Model<CatalogBook>,
+    private catalogBooksModel: Model<CatalogBookDocument>,
   ) {
     super(catalogBooksModel);
   }

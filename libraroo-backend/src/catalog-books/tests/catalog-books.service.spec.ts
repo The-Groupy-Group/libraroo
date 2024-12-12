@@ -1,4 +1,4 @@
-import { CatalogBook } from './../models/catalog-book.model';
+import { CatalogBook, CatalogBookDocument } from './../models/catalog-book.model';
 import { BooksApiService } from './../books-api/books-api.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import { CatalogBooksService } from '../catalog-books.service';
@@ -110,7 +110,7 @@ describe('CatalogBooksService', () => {
         title: 'Jerusalem',
         language: 'en',
       };
-      const savedBook: CatalogBook = {
+      const savedBook: CatalogBookDocument = {
         _id: '123',
         author: 'Karen Armstrong',
         title: 'Jerusalem',
@@ -118,7 +118,7 @@ describe('CatalogBooksService', () => {
         imageUrl:
           'http://books.google.com/books/content?id=TZltAAAAMAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api',
         categories: ['History'],
-      } as CatalogBook;
+      } as CatalogBookDocument;
       const books: BooksApiResponse = {
         totalItems: 1,
         items: [

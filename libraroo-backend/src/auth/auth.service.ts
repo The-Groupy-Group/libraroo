@@ -22,7 +22,7 @@ export class AuthService {
     )
       throw new BadRequestException();
     const accessToken = await this.createToken(user);
-    return new LoginResponseDto(accessToken, user.id);
+    return new LoginResponseDto(accessToken, user._id);
   }
 
   private async validatePassword(
@@ -34,7 +34,7 @@ export class AuthService {
 
   private async createToken(user: User): Promise<string> {
     const tokenPayload: JwtPayLoad = {
-      sub: user.id,
+      sub: user._id,
       email: user.email,
     };
     return await this.jwtService.signAsync(tokenPayload);
