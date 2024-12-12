@@ -1,5 +1,5 @@
 
-import { Model, Document } from 'mongoose';
+import { Model, Document, FilterQuery } from 'mongoose';
 
 export abstract class BaseRepository<T extends Document> {
   protected constructor(protected readonly model: Model<T>) {}
@@ -24,4 +24,8 @@ export abstract class BaseRepository<T extends Document> {
   async delete(id: string): Promise<T | null> {
     return this.model.findByIdAndDelete(id).exec();
   }
+
+  protected getCaseInsensitiveRegexPattern(value: string):FilterQuery<T> {  
+    return { $regex: `^${value}$`, $options: 'i' };  
+  }  
 }
