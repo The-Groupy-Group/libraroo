@@ -24,8 +24,9 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="register" element={<Register />} />
+        <Route path="login" element={<Login />} />
+      
         <Route
           path="book-catalog/*"
           element={
@@ -37,6 +38,7 @@ function App() {
           <Route path="add-book" element={<CreateBookCatalog />} />
           <Route index element={<Navigate to="list" />} />
         </Route>
+
       </Routes>
     </BrowserRouter>
   );
