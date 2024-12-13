@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import bookCatalogService from "../services/bookCatalog.service";
 import { Alert, Box, Button, Container, TextField } from "@mui/material";
 import { isAxiosError } from "axios";
+import { Utils } from "../../shared/utils";
 
 export const CreateBookCatalog: React.FC = () => {
   const [author, setAuthor] = useState("");
@@ -27,26 +28,8 @@ export const CreateBookCatalog: React.FC = () => {
 
       // TODO : Navigate to book catalog list screen.
     } catch (err: any) {
-      if (isAxiosError(err)) {
-        if (err.response) {
-          // Server responded with an error
-          console.log("Server responded:", err.response.status, err.response.data);
-          setError(`Error ${err.response.status}: ${err.response.data.message || "Something went wrong"}`);
-        } else if (err.request) {
-          // Request was made but no response received
-          console.log("No response received:", err.request);
-          setError("Network error: No response from server.");
-        } else {
-          // An error occurred while setting up the request
-          console.log("Error during request setup:", err.message);
-          setError("An unexpected error occurred. Please try again.");
-        }
-      } else {
-        // Handle non-Axios errors
-        console.log("Unexpected error:", err);
-        setError("Unexpected error occurred.");
-      }
-      
+      var error = await Utils.getErrorMessage(err);
+      setError(error);
     } finally {
       setLoading(false);
     }
