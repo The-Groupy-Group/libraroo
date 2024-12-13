@@ -5,7 +5,7 @@ import { CatalogBooksService } from '../catalog-books.service';
 import { CatalogBooksRepository } from '../catalog-books.repository';
 import { CreateCatalogBookDto } from '../dto/create-catalog-book.dto';
 import { CatalogBookMapper } from '../catalog-book-mapper';
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, InternalServerErrorException } from '@nestjs/common';
 import { BooksApiResponse } from '../books-api/types/books-api.types';
 
 describe('CatalogBooksService', () => {
@@ -164,10 +164,10 @@ describe('CatalogBooksService', () => {
         null,
       );
       booksApiService.findByTitleAuthorAndLanguage.mockRejectedValue(
-        new BadRequestException(),
+        new InternalServerErrorException(),
       );
       await expect(service.create(createCatalogBookDto)).rejects.toThrow(
-        BadRequestException,
+        InternalServerErrorException,
       );
     });
 
