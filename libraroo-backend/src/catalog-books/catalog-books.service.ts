@@ -5,6 +5,7 @@ import { CatalogBooksRepository } from './catalog-books.repository';
 import { CatalogBookDto } from './dto/catalog-book.dto';
 import { BooksApiService } from './books-api/books-api.service';
 import { BookItem } from './books-api/types/books-api.types';
+import { QueryCatalogBookDto } from './dto/query-catalog-book.dto';
 
 @Injectable()
 export class CatalogBooksService {
@@ -67,5 +68,9 @@ export class CatalogBooksService {
 
       return isAuthorMatch && isTitleMatch;
     });
+  }
+
+  async getBooksByQueries(queryCatalogBookDto:QueryCatalogBookDto,options:QueryOptions){
+    await this.catalogBookRepository.getBooksByQueries(queryCatalogBookDto,options)
   }
 }
