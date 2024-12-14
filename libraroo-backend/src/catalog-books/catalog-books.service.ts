@@ -1,12 +1,15 @@
 import { CatalogBookMapper } from './catalog-book-mapper';
-import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { CreateCatalogBookDto } from './dto/create-catalog-book.dto';
 import { CatalogBooksRepository } from './catalog-books.repository';
 import { CatalogBookDto } from './dto/catalog-book.dto';
 import { BooksApiService } from './books-api/books-api.service';
 import { BookItem } from './books-api/types/books-api.types';
 import { QueryCatalogBookDto } from './dto/query-catalog-book.dto';
-
 
 @Injectable()
 export class CatalogBooksService {
@@ -71,14 +74,22 @@ export class CatalogBooksService {
     });
   }
 
-  async getBooksByQueries(queryCatalogBookDto:QueryCatalogBookDto,options:QueryOptions):Promise<CatalogBookDto[]|null>{
-    try{
-     const catalogBookArray=await this.catalogBookRepository.getBooksByQueries(queryCatalogBookDto, options);
-     const catalogBookDtoArray = catalogBookArray.map(catalogBook => CatalogBookMapper.toCatalogBookDto(catalogBook));
-     return catalogBookDtoArray;
-    }
-    catch{
-      throw new InternalServerErrorException;
+  async getBooksByQueries(
+    queryCatalogBookDto: QueryCatalogBookDto,
+    options: QueryOptions,
+  ): Promise<CatalogBookDto[] | null> {
+    try {
+      const catalogBookArray =
+        await this.catalogBookRepository.getBooksByQueries(
+          queryCatalogBookDto,
+          options,
+        );
+      const catalogBookDtoArray = catalogBookArray.map((catalogBook) =>
+        CatalogBookMapper.toCatalogBookDto(catalogBook),
+      );
+      return catalogBookDtoArray;
+    } catch {
+      throw new InternalServerErrorException();
     }
   }
 }

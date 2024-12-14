@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { BooksApiResponse } from '../books-api/types/books-api.types';
 import { QueryCatalogBookDto } from '../dto/query-catalog-book.dto';
+import { CatalogBookDto } from '../dto/catalog-book.dto';
 
 describe('CatalogBooksService', () => {
   let service: CatalogBooksService;
@@ -221,11 +222,11 @@ describe('CatalogBooksService', () => {
       ];
 
       catalogBooksRepository.getBooksByQueries.mockResolvedValue(mockBooks);
-      mockBooks.map((book) => {
-        CatalogBookMapper.toCatalogBookDto(book);
-      });
+      const mockBooksDto: CatalogBookDto[] = mockBooks.map((book) =>
+        CatalogBookMapper.toCatalogBookDto(book),
+      );
       const res = await service.getBooksByQueries(queryCatalogBookDto, options);
-      expect(res).toEqual(mockBooks);
+      expect(res).toEqual(mockBooksDto);
     });
   });
 });
