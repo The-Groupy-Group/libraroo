@@ -21,9 +21,10 @@ export class CatalogBooksRepository extends BaseRepository<CatalogBook> {
     title: string,
     language: string,
   ): Promise<CatalogBook | null> {
-    const authorFilter = this.getExactCaseInsensitiveRegexPattern(author);
-    const titleFilter = this.getExactCaseInsensitiveRegexPattern(title);
-    const languageFilter = this.getExactCaseInsensitiveRegexPattern(language);
+    const authorFilter = this.getCaseInsensitiveRegexPattern(author);
+    const titleFilter = this.getCaseInsensitiveRegexPattern(title);
+    const languageFilter =
+      this.getCaseInsensitiveSubStringRegexPattern(language);
     const filter: FilterQuery<CatalogBookDocument> = {
       author: authorFilter,
       title: titleFilter,
@@ -33,36 +34,36 @@ export class CatalogBooksRepository extends BaseRepository<CatalogBook> {
   }
 
   async getBooksByQueries(
-    queryCatalogBookDto: QueryCatalogBookDto,
-    options: QueryOptions,
-  ): Promise<CatalogBook[] | null> {
-    const filter = this.createQueryFilter(queryCatalogBookDto);
-    console.log(filter);
-    return this.findByQuery(filter, options);
+    queryCatalogBookDto: QueryOptions<QueryCatalogBookDto>,
+  ): Promise<CatalogBook[]> {
+    if (queryCatalogBookDto.queries)
+      queryCatalogBookDto.filter = this.createQueryFilter(
+        queryCatalogBookDto.queries,
+      );
+    return this.findAll(queryCatalogBookDto);
   }
 
   private createQueryFilter(
-    queryCatalogBookDto: QueryCatalogBookDto,
+    queries: QueryCatalogBookDto,
   ): FilterQuery<QueryCatalogBookDto> {
-    const authorFilter = queryCatalogBookDto.author
-      ? this.getCaseInsensitiveRegexPattern(queryCatalogBookDto.author) // Notice the difference between getCaseInsensitiveRegexPattern and getExactCaseInsensitiveRegexPattern
+    const authorFilter = queries.author
+      ? this.getCaseInsensitiveSubStringRegexPattern(queries.author)
       : undefined;
 
-    const titleFilter = queryCatalogBookDto.title
-      ? this.getCaseInsensitiveRegexPattern(queryCatalogBookDto.title)
+    const titleFilter = queries.title
+      ? this.getCaseInsensitiveSubStringRegexPattern(queries.title)
       : undefined;
 
-    const languageFilter = queryCatalogBookDto.language
-      ? this.getExactCaseInsensitiveRegexPattern(queryCatalogBookDto.language)
+    const languageFilter = queries.language
+      ? this.getCaseInsensitiveSubStringRegexPattern(queries.language)
       : undefined;
 
     const categoriesFilter =
-      queryCatalogBookDto.categories &&
-      queryCatalogBookDto.categories.length > 0
+      queries.categories && queries.categories.length > 0
         ? {
             categories: {
-              $in: queryCatalogBookDto.categories.map((category) =>
-                this.getExactCaseInsensitiveRegexPattern(category),
+              $in: queries.categories.map((category) =>
+                this.getCaseInsensitiveSubStringRegexPattern(category),
               ),
             },
           }

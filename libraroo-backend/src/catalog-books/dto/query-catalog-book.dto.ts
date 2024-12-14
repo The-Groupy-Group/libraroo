@@ -1,28 +1,36 @@
-import { IsNumber, IsOptional, IsString } from "class-validator";
+import { ApiPropertyOptional } from '@nestjs/swagger';
+import { IsOptional, IsString } from 'class-validator';
 
-export class QueryCatalogBookDto{
-    @IsOptional()
-    @IsString()
-    author?: string;
-  
-    @IsOptional()
-    @IsString()
-    language?: string;
+export class QueryCatalogBookDto {
+  @IsOptional()
+  @IsString()
+  @ApiPropertyOptional({
+    description: 'The author of the book',
+    example: 'Karen',
+  })
+  author?: string;
 
-    @IsOptional()
-    @IsString()
-    categories?: string[];
+  @IsOptional()
+  @IsString()
+  @ApiPropertyOptional({
+    description: 'The language of the book',
+    example: 'en',
+  })
+  language?: string;
 
-    @IsOptional()
-    @IsString()
-    title?: string;
+  @IsOptional()
+  @IsString()
+  @ApiPropertyOptional({
+    description: 'The categories of the book',
+    example: ['History'],
+  })
+  categories?: string[];
 
-    @IsOptional()
-    @IsNumber()
-    startIndex?:number;
-
-    @IsOptional()
-    @IsNumber()
-    maxResults?:number;
-    
+  @IsOptional()
+  @IsString()
+  @ApiPropertyOptional({
+    description: 'The title of the book',
+    example: 'Jerusalem',
+  })
+  title?: string;
 }

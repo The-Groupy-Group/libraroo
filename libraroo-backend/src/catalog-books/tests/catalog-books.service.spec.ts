@@ -12,6 +12,7 @@ import {
 import { BooksApiResponse } from '../books-api/types/books-api.types';
 import { QueryCatalogBookDto } from '../dto/query-catalog-book.dto';
 import { CatalogBookDto } from '../dto/catalog-book.dto';
+import { QueryOptions } from 'mongoose';
 
 describe('CatalogBooksService', () => {
   let service: CatalogBooksService;
@@ -200,12 +201,10 @@ describe('CatalogBooksService', () => {
 
   describe('getBooksByQueries', () => {
     it('should return CatalogBookDto array filtered by queries and options', async () => {
-      const queryCatalogBookDto: QueryCatalogBookDto = {
+      const queryCatalogBookDto: QueryOptions<QueryCatalogBookDto> = {
         author: 'Karen Armstrong',
         title: 'Jerusalem',
         language: 'en',
-      };
-      const options = {
         maxResults: 10,
         startIndex: 0,
         sort: {},
@@ -225,7 +224,7 @@ describe('CatalogBooksService', () => {
       const mockBooksDto: CatalogBookDto[] = mockBooks.map((book) =>
         CatalogBookMapper.toCatalogBookDto(book),
       );
-      const res = await service.getBooksByQueries(queryCatalogBookDto, options);
+      const res = await service.getBooksByQueries(queryCatalogBookDto);
       expect(res).toEqual(mockBooksDto);
     });
   });

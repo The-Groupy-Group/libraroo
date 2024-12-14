@@ -1,8 +1,10 @@
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
+  ApiExtraModels,
   ApiInternalServerErrorResponse,
   ApiOperation,
+  ApiPropertyOptional,
   ApiQuery,
   ApiResponse,
 } from '@nestjs/swagger';
@@ -21,6 +23,7 @@ import { CreateCatalogBookDto } from './dto/create-catalog-book.dto';
 import { AuthGuard } from 'src/shared/guards/auth/auth.guard';
 import { QueryCatalogBookDto } from './dto/query-catalog-book.dto';
 import { QueryOptions } from 'src/shared/models/query-options';
+import { query } from 'express';
 
 @UseGuards(AuthGuard)
 @Controller('catalog-books')
@@ -47,51 +50,20 @@ export class CatalogBooksController {
     type: CatalogBookDto,
     isArray: true,
   })
+  @ApiExtraModels(QueryCatalogBookDto)
   @ApiQuery({
-    name: 'author',
+    name: 'QueryOptions',
     required: false,
-    type: String,
-    description: 'The author of the book',
-  })
-  @ApiQuery({
-    name: 'title',
-    required: false,
-    type: String,
-    description: 'The title of the book',
-  })
-  @ApiQuery({
-    name: 'language',
-    required: false,
-    type: String,
-    description: 'The language of the book',
-  })
-  @ApiQuery({
-    name: 'categories',
-    required: false,
-    type: [String],
-    description: 'The categories of the book',
-  })
-  @ApiQuery({
-    name: 'startIndex',
-    required: false,
-    type: Number,
-    description: 'The start index for pagination',
-  })
-  @ApiQuery({
-    name: 'maxResults',
-    required: false,
-    type: Number,
-    description: 'The maximum number of results to return',
+    type: QueryCatalogBookDto,
+    description: 'options of the query',
+    example: { author: 'Karen', categroeies: ['History'], language: 'en' },
   })
   @ApiInternalServerErrorResponse()
-  async getBooksByQueries(@Query() queryCatalogBookDto: QueryCatalogBookDto) {
-    const options: QueryOptions = {
-      startIndex: queryCatalogBookDto.startIndex || 0,
-      maxResults: queryCatalogBookDto.maxResults || 10,
-    };
+  async getBooksByQueries(
+    @Query() queryCatalogBookDto: QueryOptions<QueryCatalogBookDto>,
+  ) {
     return await this.catalogBooksService.getBooksByQueries(
       queryCatalogBookDto,
-      options,
     );
   }
 }

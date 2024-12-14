@@ -76,21 +76,13 @@ export class CatalogBooksService {
   }
 
   async getBooksByQueries(
-    queryCatalogBookDto: QueryCatalogBookDto,
-    options: QueryOptions,
-  ): Promise<CatalogBookDto[] | null> {
-    try {
-      const catalogBookArray =
-        await this.catalogBookRepository.getBooksByQueries(
-          queryCatalogBookDto,
-          options,
-        );
-      const catalogBookDtoArray = catalogBookArray.map((catalogBook) =>
-        CatalogBookMapper.toCatalogBookDto(catalogBook),
-      );
-      return catalogBookDtoArray;
-    } catch {
-      throw new InternalServerErrorException();
-    }
+    queryCatalogBookDto: QueryOptions<QueryCatalogBookDto>,
+  ): Promise<CatalogBookDto[]> {
+    const catalogBooks =
+      await this.catalogBookRepository.getBooksByQueries(queryCatalogBookDto);
+    const catalogBookDtoArray = catalogBooks.map((catalogBook) =>
+      CatalogBookMapper.toCatalogBookDto(catalogBook),
+    );
+    return catalogBookDtoArray;
   }
 }
