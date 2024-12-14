@@ -1,6 +1,7 @@
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
+  ApiInternalServerErrorResponse,
   ApiOperation,
   ApiResponse,
 } from '@nestjs/swagger';
@@ -40,15 +41,19 @@ export class CatalogBooksController {
   @Get()
   @ApiOperation({ summary: 'get books by queries' })
   @ApiResponse({
-    
+    description: 'CatalogBookDto',
+    type: CatalogBookDto,
+    isArray: true,
   })
-  async getBooksByQueries(
-    @Query() queryCatalogBookDto: QueryCatalogBookDto
-  ) {
+  @ApiInternalServerErrorResponse()
+  async getBooksByQueries(@Query() queryCatalogBookDto: QueryCatalogBookDto) {
     const options: QueryOptions = {
       startIndex: queryCatalogBookDto.startIndex || 0,
       maxResults: queryCatalogBookDto.maxResults || 10,
     };
-    return await this.catalogBooksService.getBooksByQueries(queryCatalogBookDto, options);
-}
+    return await this.catalogBooksService.getBooksByQueries(
+      queryCatalogBookDto,
+      options,
+    );
+  }
 }

@@ -20,9 +20,9 @@ export class CatalogBooksRepository extends BaseRepository<CatalogBook> {
     title: string,
     language: string,
   ): Promise<CatalogBook | null> {
-    const authorFilter = this.getCaseInsensitiveRegexPattern(author);
-    const titleFilter = this.getCaseInsensitiveRegexPattern(title);
-    const languageFilter = this.getCaseInsensitiveRegexPattern(language);
+    const authorFilter = this.getExactCaseInsensitiveRegexPattern(author);
+    const titleFilter = this.getExactCaseInsensitiveRegexPattern(title);
+    const languageFilter = this.getExactCaseInsensitiveRegexPattern(language);
     const filter: FilterQuery<CatalogBookDocument> = {
       author: authorFilter,
       title: titleFilter,
@@ -36,23 +36,24 @@ export class CatalogBooksRepository extends BaseRepository<CatalogBook> {
     options: QueryOptions,
   ): Promise<CatalogBook[] | null> {
     const filter = this.createQueryFilter(queryCatalogBookDto);
-    return this.findByQuery(filter,options);
+    console.log(filter);
+    return this.findByQuery(filter, options);
   }
 
   private createQueryFilter(
     queryCatalogBookDto: QueryCatalogBookDto,
   ): FilterQuery<QueryCatalogBookDto> {
     const authorFilter = queryCatalogBookDto.author
-      ? this.getCaseInsensitiveRegexPattern(queryCatalogBookDto.author)
+      ? this.getCaseInsensitiveRegexPattern(queryCatalogBookDto.author) // Notice the difference between getCaseInsensitiveRegexPattern and getExactCaseInsensitiveRegexPattern
       : undefined;
 
     const titleFilter = queryCatalogBookDto.title
       ? this.getCaseInsensitiveRegexPattern(queryCatalogBookDto.title)
-      : undefined
+      : undefined;
 
     const languageFilter = queryCatalogBookDto.language
-      ? this.getCaseInsensitiveRegexPattern(queryCatalogBookDto.language)
-      : undefined
+      ? this.getExactCaseInsensitiveRegexPattern(queryCatalogBookDto.language)
+      : undefined;
 
     const categoriesFilter =
       queryCatalogBookDto.categories &&
@@ -60,17 +61,18 @@ export class CatalogBooksRepository extends BaseRepository<CatalogBook> {
         ? {
             categories: {
               $in: queryCatalogBookDto.categories.map((category) =>
-                this.getCaseInsensitiveRegexPattern(category),
+                this.getExactCaseInsensitiveRegexPattern(category),
               ),
             },
           }
-        : undefined
+        : undefined;
 
-    const filter: FilterQuery<QueryCatalogBookDto> ={} 
+    const filter: FilterQuery<QueryCatalogBookDto> = {};
     if (authorFilter !== undefined) filter.author = authorFilter;
     if (titleFilter !== undefined) filter.title = titleFilter;
     if (languageFilter !== undefined) filter.language = languageFilter;
-    if (categoriesFilter !== undefined) filter.categories = categoriesFilter;
+    if (categoriesFilter !== undefined)
+      filter.categories = { $all: categoriesFilter };
     return filter;
   }
 }

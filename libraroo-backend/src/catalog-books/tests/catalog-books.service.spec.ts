@@ -5,8 +5,12 @@ import { CatalogBooksService } from '../catalog-books.service';
 import { CatalogBooksRepository } from '../catalog-books.repository';
 import { CreateCatalogBookDto } from '../dto/create-catalog-book.dto';
 import { CatalogBookMapper } from '../catalog-book-mapper';
-import { BadRequestException, InternalServerErrorException } from '@nestjs/common';
+import {
+  BadRequestException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { BooksApiResponse } from '../books-api/types/books-api.types';
+import { QueryCatalogBookDto } from '../dto/query-catalog-book.dto';
 
 describe('CatalogBooksService', () => {
   let service: CatalogBooksService;
@@ -16,6 +20,7 @@ describe('CatalogBooksService', () => {
     const repositoryMock: Partial<jest.Mocked<CatalogBooksRepository>> = {
       findByTitleAuthorAndLanguage: jest.fn(),
       create: jest.fn(),
+      getBooksByQueries: jest.fn(),
     };
 
     const booksApiServiceMock: Partial<jest.Mocked<BooksApiService>> = {
@@ -189,6 +194,38 @@ describe('CatalogBooksService', () => {
       await expect(service.create(createCatalogBookDto)).rejects.toThrow(
         BadRequestException,
       );
+    });
+  });
+
+  describe('getBooksByQueries', () => {
+    it('should return CatalogBookDto array filtered by queries and options', async () => {
+      const queryCatalogBookDto: QueryCatalogBookDto = {
+        author: 'Karen Armstrong',
+        title: 'Jerusalem',
+        language: 'en',
+      };
+      const options = {
+        maxResults: 10,
+        startIndex: 0,
+        sort: {},
+      };
+      const mockBooks: CatalogBook[] = [
+        {
+          _id: '1',
+          author: 'Karen Armstrong',
+          title: 'Jerusalem',
+          language: 'en',
+          imageUrl: 'donfil.jpeg',
+          categories: ['History'],
+        },
+      ];
+
+      catalogBooksRepository.getBooksByQueries.mockResolvedValue(mockBooks);
+      mockBooks.map((book) => {
+        CatalogBookMapper.toCatalogBookDto(book);
+      });
+      const res = await service.getBooksByQueries(queryCatalogBookDto, options);
+      expect(res).toEqual(mockBooks);
     });
   });
 });

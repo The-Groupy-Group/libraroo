@@ -1,5 +1,4 @@
-
-import { Model, Document, FilterQuery, UpdateQuery, Query } from 'mongoose';
+import { Model, Document, FilterQuery, UpdateQuery } from 'mongoose';
 
 export abstract class BaseRepository<T> {
   protected constructor(protected readonly model: Model<T & Document>) {}
@@ -8,16 +7,18 @@ export abstract class BaseRepository<T> {
     const createdDocument = new this.model(data);
     return createdDocument.save() as T;
   }
-  async findByQuery(filters: FilterQuery<T> = {}, options: QueryOptions = {}): Promise<T[]> {
+  async findByQuery(
+    filters: FilterQuery<T> = {},
+    options: QueryOptions = {},
+  ): Promise<T[]> {
     const { maxResults = 10, startIndex = 0, sort = {} } = options;
-    const res=await this.model
+    if (maxResults === 0) return [];
+    return this.model
       .find(filters)
-      // .limit(maxResults)
-      // .skip(startIndex)
-      // .sort(sort)
+      .limit(maxResults)
+      .skip(startIndex)
+      .sort(sort)
       .exec();
-      console.log(res);
-      return res;
   }
   async findAll(): Promise<T[]> {
     return this.model.find().exec();
@@ -36,7 +37,21 @@ export abstract class BaseRepository<T> {
     return this.model.findByIdAndDelete(id).exec();
   }
 
-  protected getCaseInsensitiveRegexPattern(value: string):FilterQuery<T> {  
-    return { $regex: `^${value}$`, $options: 'i' };  
-  }  
+  /**
+   *
+   * @param value
+   * @returns insensitive filter where value===value in db
+   */
+  protected getExactCaseInsensitiveRegexPattern(value: string): FilterQuery<T> {
+    return { $regex: `^${value}$`, $options: 'i' };
+  }
+
+  /**
+   *
+   * @param value
+   * @returns insensitive filter where value is substring of value in db
+   */
+  protected getCaseInsensitiveRegexPattern(value: string): FilterQuery<T> {
+    return { $regex: `${value}`, $options: 'i' };
+  }
 }
