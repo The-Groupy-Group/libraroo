@@ -3,6 +3,7 @@ import {
   ApiCreatedResponse,
   ApiInternalServerErrorResponse,
   ApiOperation,
+  ApiQuery,
   ApiResponse,
 } from '@nestjs/swagger';
 import { CatalogBooksService } from './catalog-books.service';
@@ -45,6 +46,42 @@ export class CatalogBooksController {
     description: 'CatalogBookDto',
     type: CatalogBookDto,
     isArray: true,
+  })
+  @ApiQuery({
+    name: 'author',
+    required: false,
+    type: String,
+    description: 'The author of the book',
+  })
+  @ApiQuery({
+    name: 'title',
+    required: false,
+    type: String,
+    description: 'The title of the book',
+  })
+  @ApiQuery({
+    name: 'language',
+    required: false,
+    type: String,
+    description: 'The language of the book',
+  })
+  @ApiQuery({
+    name: 'categories',
+    required: false,
+    type: [String],
+    description: 'The categories of the book',
+  })
+  @ApiQuery({
+    name: 'startIndex',
+    required: false,
+    type: Number,
+    description: 'The start index for pagination',
+  })
+  @ApiQuery({
+    name: 'maxResults',
+    required: false,
+    type: Number,
+    description: 'The maximum number of results to return',
   })
   @ApiInternalServerErrorResponse()
   async getBooksByQueries(@Query() queryCatalogBookDto: QueryCatalogBookDto) {
