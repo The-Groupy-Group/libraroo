@@ -4,7 +4,6 @@ import {
   ApiExtraModels,
   ApiInternalServerErrorResponse,
   ApiOperation,
-  ApiPropertyOptional,
   ApiQuery,
   ApiResponse,
 } from '@nestjs/swagger';
@@ -23,7 +22,6 @@ import { CreateCatalogBookDto } from './dto/create-catalog-book.dto';
 import { AuthGuard } from 'src/shared/guards/auth/auth.guard';
 import { QueryCatalogBookDto } from './dto/query-catalog-book.dto';
 import { QueryOptions } from 'src/shared/models/query-options';
-import { query } from 'express';
 
 @UseGuards(AuthGuard)
 @Controller('catalog-books')
