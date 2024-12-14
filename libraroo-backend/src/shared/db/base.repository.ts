@@ -1,4 +1,5 @@
 import { Model, Document, FilterQuery, UpdateQuery } from 'mongoose';
+import { QueryOptions } from '../models/query-options';
 
 export abstract class BaseRepository<T> {
   protected constructor(protected readonly model: Model<T & Document>) {}

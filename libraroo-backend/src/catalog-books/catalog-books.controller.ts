@@ -19,6 +19,7 @@ import { CatalogBookDto } from './dto/catalog-book.dto';
 import { CreateCatalogBookDto } from './dto/create-catalog-book.dto';
 import { AuthGuard } from 'src/shared/guards/auth/auth.guard';
 import { QueryCatalogBookDto } from './dto/query-catalog-book.dto';
+import { QueryOptions } from 'src/shared/models/query-options';
 
 @UseGuards(AuthGuard)
 @Controller('catalog-books')
