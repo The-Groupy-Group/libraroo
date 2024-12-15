@@ -6,7 +6,6 @@ import { CatalogBookDto } from './dto/catalog-book.dto';
 import { BooksApiService } from './books-api/books-api.service';
 import { BookItem } from './books-api/types/books-api.types';
 import { QueryCatalogBookDto } from './dto/query-catalog-book.dto';
-import { QueryOptions } from 'src/shared/models/query-options';
 
 @Injectable()
 export class CatalogBooksService {
