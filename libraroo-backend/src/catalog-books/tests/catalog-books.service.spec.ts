@@ -12,7 +12,6 @@ import {
 import { BooksApiResponse } from '../books-api/types/books-api.types';
 import { QueryCatalogBookDto } from '../dto/query-catalog-book.dto';
 import { CatalogBookDto } from '../dto/catalog-book.dto';
-import { QueryOptions } from 'mongoose';
 
 describe('CatalogBooksService', () => {
   let service: CatalogBooksService;

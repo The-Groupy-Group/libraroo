@@ -6,7 +6,6 @@ import { CatalogBook, CatalogBookDocument } from './models/catalog-book.model';
 import { FilterQuery } from 'mongoose';
 import { QueryCatalogBookDto } from './dto/query-catalog-book.dto';
 import { QueryOptions } from 'src/shared/models/query-options';
-import { start } from 'repl';
 
 @Injectable()
 export class CatalogBooksRepository extends BaseRepository<CatalogBook> {
