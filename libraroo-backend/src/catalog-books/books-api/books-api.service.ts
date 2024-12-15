@@ -24,7 +24,6 @@ export class BooksApiService {
       );
       return res.data;
     } catch (error) {
-      console.log(error);
       throw new InternalServerErrorException('Something went wrong');
     }
   }
