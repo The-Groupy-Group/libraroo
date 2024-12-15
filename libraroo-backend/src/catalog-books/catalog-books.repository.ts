@@ -6,6 +6,7 @@ import { CatalogBook, CatalogBookDocument } from './models/catalog-book.model';
 import { FilterQuery } from 'mongoose';
 import { QueryCatalogBookDto } from './dto/query-catalog-book.dto';
 import { QueryOptions } from 'src/shared/models/query-options';
+import { start } from 'repl';
 
 @Injectable()
 export class CatalogBooksRepository extends BaseRepository<CatalogBook> {
@@ -34,18 +35,21 @@ export class CatalogBooksRepository extends BaseRepository<CatalogBook> {
   }
 
   async getBooksByQueries(
-    queryCatalogBookDto: QueryOptions<QueryCatalogBookDto>,
+    queryCatalogBookDto: QueryCatalogBookDto,
   ): Promise<CatalogBook[]> {
-    if (queryCatalogBookDto.queries)
-      queryCatalogBookDto.filter = this.createQueryFilter(
-        queryCatalogBookDto.queries,
-      );
-    return this.findAll(queryCatalogBookDto);
+    const filter = this.createQueryFilter(queryCatalogBookDto);
+    const queryOptions: QueryOptions<CatalogBook> = {
+      maxResults: queryCatalogBookDto.maxResults,
+      startIndex: queryCatalogBookDto.startIndex,
+      filter: filter,
+    };
+    return this.findAll(queryOptions);
   }
 
+  
   private createQueryFilter(
     queries: QueryCatalogBookDto,
-  ): FilterQuery<QueryCatalogBookDto> {
+  ): FilterQuery<CatalogBook> {
     const authorFilter = queries.author
       ? this.getCaseInsensitiveSubStringRegexPattern(queries.author)
       : undefined;
@@ -55,7 +59,7 @@ export class CatalogBooksRepository extends BaseRepository<CatalogBook> {
       : undefined;
 
     const languageFilter = queries.language
-      ? this.getCaseInsensitiveSubStringRegexPattern(queries.language)
+      ? this.getCaseInsensitiveRegexPattern(queries.language)
       : undefined;
 
     const categoriesFilter =
@@ -63,13 +67,13 @@ export class CatalogBooksRepository extends BaseRepository<CatalogBook> {
         ? {
             categories: {
               $in: queries.categories.map((category) =>
-                this.getCaseInsensitiveSubStringRegexPattern(category),
+                this.getCaseInsensitiveRegexPattern(category),
               ),
             },
           }
         : undefined;
 
-    const filter: FilterQuery<QueryCatalogBookDto> = {};
+    const filter: FilterQuery<CatalogBook> = {};
     if (authorFilter !== undefined) filter.author = authorFilter;
     if (titleFilter !== undefined) filter.title = titleFilter;
     if (languageFilter !== undefined) filter.language = languageFilter;

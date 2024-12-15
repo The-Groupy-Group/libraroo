@@ -9,7 +9,7 @@ export abstract class BaseRepository<T> {
     return createdDocument.save() as T;
   }
   async findAll(
-    options: QueryOptions<any> = { maxResults: 10, startIndex: 0, sort: {} },
+    options: QueryOptions<T>,
   ): Promise<T[]> {
     if (options.maxResults === 0) return [];
     return this.model

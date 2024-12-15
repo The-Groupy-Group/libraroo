@@ -1,36 +1,34 @@
-import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsOptional, IsString } from 'class-validator';
+import { ApiPropertyOptional } from "@nestjs/swagger";
+import { IsNumber, IsOptional, IsString } from "class-validator";
 
 export class QueryCatalogBookDto {
-  @IsOptional()
-  @IsString()
-  @ApiPropertyOptional({
-    description: 'The author of the book',
-    example: 'Karen',
-  })
-  author?: string;
+    @IsOptional()
+    @IsString()
+    @ApiPropertyOptional({ type: String, description: 'Author of the book' })
+    author?: string;
 
-  @IsOptional()
-  @IsString()
-  @ApiPropertyOptional({
-    description: 'The language of the book',
-    example: 'en',
-  })
-  language?: string;
+    @IsOptional()
+    @IsString()
+    @ApiPropertyOptional({ type: String, description: 'Language of the book' })
+    language?: string;
 
-  @IsOptional()
-  @IsString()
-  @ApiPropertyOptional({
-    description: 'The categories of the book',
-    example: ['History'],
-  })
-  categories?: string[];
+    @IsOptional()
+    @IsString({ each: true })
+    @ApiPropertyOptional({ type: [String], description: 'Categories of the book' })
+    categories?: string[];
 
-  @IsOptional()
-  @IsString()
-  @ApiPropertyOptional({
-    description: 'The title of the book',
-    example: 'Jerusalem',
-  })
-  title?: string;
+    @IsOptional()
+    @IsString()
+    @ApiPropertyOptional({ type: String, description: 'Title of the book' })
+    title?: string;
+
+    @IsOptional()
+    @IsNumber()
+    @ApiPropertyOptional({ type: Number, description: 'Start index for pagination' })
+    startIndex?: number;
+
+    @IsOptional()
+    @IsNumber()
+    @ApiPropertyOptional({ type: Number, description: 'Maximum number of results to return' })
+    maxResults?: number;
 }

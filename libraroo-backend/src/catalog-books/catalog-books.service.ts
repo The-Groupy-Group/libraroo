@@ -72,7 +72,7 @@ export class CatalogBooksService {
   }
 
   async getBooksByQueries(
-    queryCatalogBookDto: QueryOptions<QueryCatalogBookDto>,
+    queryCatalogBookDto: QueryCatalogBookDto,
   ): Promise<CatalogBookDto[]> {
     const catalogBooks =
       await this.catalogBookRepository.getBooksByQueries(queryCatalogBookDto);

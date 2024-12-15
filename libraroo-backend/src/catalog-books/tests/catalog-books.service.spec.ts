@@ -201,13 +201,12 @@ describe('CatalogBooksService', () => {
 
   describe('getBooksByQueries', () => {
     it('should return CatalogBookDto array filtered by queries and options', async () => {
-      const queryCatalogBookDto: QueryOptions<QueryCatalogBookDto> = {
+      const queryCatalogBookDto: QueryCatalogBookDto = {
         author: 'Karen Armstrong',
         title: 'Jerusalem',
         language: 'en',
         maxResults: 10,
         startIndex: 0,
-        sort: {},
       };
       const mockBooks: CatalogBook[] = [
         {

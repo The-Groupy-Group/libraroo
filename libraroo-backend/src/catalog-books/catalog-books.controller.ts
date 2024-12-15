@@ -50,15 +50,14 @@ export class CatalogBooksController {
   })
   @ApiExtraModels(QueryCatalogBookDto)
   @ApiQuery({
-    name: 'QueryOptions',
+    name: 'query',
     required: false,
     type: QueryCatalogBookDto,
-    description: 'options of the query',
-    example: { author: 'Karen', categroeies: ['History'], language: 'en' },
+    description: 'The maximum number of results to return',
   })
   @ApiInternalServerErrorResponse()
   async getBooksByQueries(
-    @Query() queryCatalogBookDto: QueryOptions<QueryCatalogBookDto>,
+    @Query() queryCatalogBookDto: QueryCatalogBookDto,
   ) {
     return await this.catalogBooksService.getBooksByQueries(
       queryCatalogBookDto,
