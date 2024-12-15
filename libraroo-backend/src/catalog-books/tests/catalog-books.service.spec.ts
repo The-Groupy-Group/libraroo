@@ -5,8 +5,13 @@ import { CatalogBooksService } from '../catalog-books.service';
 import { CatalogBooksRepository } from '../catalog-books.repository';
 import { CreateCatalogBookDto } from '../dto/create-catalog-book.dto';
 import { CatalogBookMapper } from '../catalog-book-mapper';
-import { BadRequestException } from '@nestjs/common';
+import {
+  BadRequestException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { BooksApiResponse } from '../books-api/types/books-api.types';
+import { QueryCatalogBookDto } from '../dto/query-catalog-book.dto';
+import { CatalogBookDto } from '../dto/catalog-book.dto';
 
 describe('CatalogBooksService', () => {
   let service: CatalogBooksService;
@@ -16,6 +21,7 @@ describe('CatalogBooksService', () => {
     const repositoryMock: Partial<jest.Mocked<CatalogBooksRepository>> = {
       findByTitleAuthorAndLanguage: jest.fn(),
       create: jest.fn(),
+      getBooksByQueries: jest.fn(),
     };
 
     const booksApiServiceMock: Partial<jest.Mocked<BooksApiService>> = {
@@ -164,10 +170,10 @@ describe('CatalogBooksService', () => {
         null,
       );
       booksApiService.findByTitleAuthorAndLanguage.mockRejectedValue(
-        new BadRequestException(),
+        new InternalServerErrorException(),
       );
       await expect(service.create(createCatalogBookDto)).rejects.toThrow(
-        BadRequestException,
+        InternalServerErrorException,
       );
     });
 
@@ -189,6 +195,35 @@ describe('CatalogBooksService', () => {
       await expect(service.create(createCatalogBookDto)).rejects.toThrow(
         BadRequestException,
       );
+    });
+  });
+
+  describe('getBooksByQueries', () => {
+    it('should return CatalogBookDto array filtered by queries and options', async () => {
+      const queryCatalogBookDto: QueryCatalogBookDto = {
+        author: 'Karen Armstrong',
+        title: 'Jerusalem',
+        language: 'en',
+        maxResults: 10,
+        startIndex: 0,
+      };
+      const mockBooks: CatalogBook[] = [
+        {
+          _id: '1',
+          author: 'Karen Armstrong',
+          title: 'Jerusalem',
+          language: 'en',
+          imageUrl: 'donfil.jpeg',
+          categories: ['History'],
+        },
+      ];
+
+      catalogBooksRepository.getBooksByQueries.mockResolvedValue(mockBooks);
+      const mockBooksDto: CatalogBookDto[] = mockBooks.map((book) =>
+        CatalogBookMapper.toCatalogBookDto(book),
+      );
+      const res = await service.getBooksByQueries(queryCatalogBookDto);
+      expect(res).toEqual(mockBooksDto);
     });
   });
 });

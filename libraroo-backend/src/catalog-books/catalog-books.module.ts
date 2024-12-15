@@ -14,7 +14,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       { name: CatalogBook.name, schema: CatalogBookSchema },
     ]),
     HttpModule.registerAsync({
-      imports: [ConfigModule], // Ensure ConfigModule is available
+      imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
         baseURL: configService.get<string>('GOOGLE_API_BASE_URL'),
       }),
