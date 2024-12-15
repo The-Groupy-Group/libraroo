@@ -19,9 +19,8 @@ import {
 } from '@nestjs/common';
 import { CatalogBookDto } from './dto/catalog-book.dto';
 import { CreateCatalogBookDto } from './dto/create-catalog-book.dto';
-import { AuthGuard } from 'src/shared/guards/auth/auth.guard';
+import { AuthGuard } from '../shared/guards/auth/auth.guard';
 import { QueryCatalogBookDto } from './dto/query-catalog-book.dto';
-
 
 @UseGuards(AuthGuard)
 @Controller('catalog-books')
@@ -53,12 +52,10 @@ export class CatalogBooksController {
     name: 'query',
     required: false,
     type: QueryCatalogBookDto,
-    description: 'The maximum number of results to return',
+    description: 'The query for books to find',
   })
   @ApiInternalServerErrorResponse()
-  async getBooksByQueries(
-    @Query() queryCatalogBookDto: QueryCatalogBookDto,
-  ) {
+  async getBooksByQueries(@Query() queryCatalogBookDto: QueryCatalogBookDto) {
     return await this.catalogBooksService.getBooksByQueries(
       queryCatalogBookDto,
     );
