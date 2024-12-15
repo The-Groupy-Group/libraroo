@@ -6,7 +6,7 @@ export class CatalogBook {
   _id: string;
 
   @Prop({ required: true })
-  author: string;
+  authors: string[];
 
   @Prop({ required: true })
   title: string;
@@ -23,5 +23,4 @@ export class CatalogBook {
 
 export type CatalogBookDocument = CatalogBook & Document;
 
-export const CatalogBookSchema =
-  SchemaFactory.createForClass(CatalogBook);
+export const CatalogBookSchema = SchemaFactory.createForClass(CatalogBook);

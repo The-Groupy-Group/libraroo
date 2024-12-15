@@ -6,7 +6,7 @@ export class CatalogBookMapper {
   static toCatalogBookDto(catalogBook: CatalogBook): CatalogBookDto {
     return {
       id: catalogBook._id,
-      author: catalogBook.author,
+      authors: catalogBook.authors,
       title: catalogBook.title,
       language: catalogBook.language,
       imageUrl: catalogBook.imageUrl,
@@ -16,7 +16,7 @@ export class CatalogBookMapper {
 
   static toCatalogBookDb(book: BookItem): Partial<CatalogBook> {
     return {
-      author: book.volumeInfo.authors[0],
+      authors: book.volumeInfo.authors,
       title: book.volumeInfo.title,
       imageUrl: book.volumeInfo.imageLinks.thumbnail,
       categories: book.volumeInfo.categories,

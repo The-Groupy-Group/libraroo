@@ -5,7 +5,7 @@ export class CatalogBookDto {
   id: string;
 
   @ApiProperty()
-  author: string;
+  authors: string[];
 
   @ApiProperty()
   title: string;
