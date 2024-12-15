@@ -79,7 +79,9 @@ describe('CatalogBooksService', () => {
       expect(
         booksApiService.findByTitleAuthorAndLanguage,
       ).toHaveBeenCalledTimes(0);
-      expect(res).toMatchObject(createCatalogBookDto);
+      expect(res).toMatchObject(
+        CatalogBookMapper.toCatalogBookDto(existingBook),
+      );
     });
   });
   describe('create', () => {
@@ -107,10 +109,12 @@ describe('CatalogBooksService', () => {
       expect(
         booksApiService.findByTitleAuthorAndLanguage,
       ).toHaveBeenCalledTimes(0);
-      expect(res).toMatchObject(createCatalogBookDto);
+      expect(res).toMatchObject(
+        CatalogBookMapper.toCatalogBookDto(existingBook),
+      );
     });
 
-    it('should create return CatalogBook model if catalog book doesnt exist', async () => {
+    it('should create and return CatalogBook model if catalog book doesnt exist', async () => {
       const createCatalogBookDto: CreateCatalogBookDto = {
         author: 'Karen Armstrong',
         title: 'Jerusalem',
@@ -150,7 +154,7 @@ describe('CatalogBooksService', () => {
       const res = await service.create(createCatalogBookDto);
 
       expect(catalogBooksRepository.create).toHaveBeenCalledWith({
-        author: books.items[0].volumeInfo.authors[0],
+        authors: books.items[0].volumeInfo.authors,
         title: books.items[0].volumeInfo.title,
         language: books.items[0].volumeInfo.language,
         imageUrl: books.items[0].volumeInfo.imageLinks.thumbnail,
