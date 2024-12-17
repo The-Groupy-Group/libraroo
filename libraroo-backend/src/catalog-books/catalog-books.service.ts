@@ -1,5 +1,5 @@
 import { CatalogBookMapper } from './catalog-book-mapper';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { CreateCatalogBookDto } from './dto/create-catalog-book.dto';
 import { CatalogBooksRepository } from './catalog-books.repository';
 import { CatalogBookDto } from './dto/catalog-book.dto';
@@ -9,6 +9,8 @@ import { QueryCatalogBookDto } from './dto/query-catalog-book.dto';
 
 @Injectable()
 export class CatalogBooksService {
+  private logger: Logger = new Logger(CatalogBooksService.name);
+
   constructor(
     private readonly catalogBookRepository: CatalogBooksRepository,
     private readonly booksApiService: BooksApiService,
@@ -34,6 +36,7 @@ export class CatalogBooksService {
     );
     if (books.totalItems == 0)
       throw new BadRequestException('This book doesnt exist');
+
     const exactMatchBook = this.ensureMatch(books.items, createCatalogBookDto);
 
     if (!exactMatchBook)
@@ -42,6 +45,8 @@ export class CatalogBooksService {
     const bookToSave = CatalogBookMapper.toCatalogBookDb(exactMatchBook);
     const savedBookCatalog =
       await this.catalogBookRepository.create(bookToSave);
+
+    this.logger.log(`created catalog book with id: ${savedBookCatalog}`);
 
     return CatalogBookMapper.toCatalogBookDto(savedBookCatalog);
   }

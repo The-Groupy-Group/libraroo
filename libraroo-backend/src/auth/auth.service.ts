@@ -1,7 +1,7 @@
 import { User } from './../users/models/user.model';
 import { UsersRepository } from '../users/users.repository';
 import { LoginDto } from '../auth/dto/login.dto';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { LoginResponseDto } from './dto/login-response.dto';
 import { compare } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
@@ -9,6 +9,7 @@ import { JwtPayLoad } from '../shared/jwt/jwt-payload';
 
 @Injectable()
 export class AuthService {
+  private logger: Logger = new Logger(AuthService.name);
   constructor(
     private readonly usersRepository: UsersRepository,
     private readonly jwtService: JwtService,
@@ -22,6 +23,9 @@ export class AuthService {
     )
       throw new BadRequestException();
     const accessToken = await this.createToken(user);
+
+    this.logger.log(`user with id: ${user._id} authenticated successfully`);
+
     return new LoginResponseDto(accessToken, user._id);
   }
 
