@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { hash } from 'bcrypt';
 import { UserMapper } from './user-mapper';
@@ -6,6 +6,7 @@ import { UsersRepository } from './users.repository';
 
 @Injectable()
 export class UsersService {
+  logger: Logger = new Logger(UsersService.name);
   constructor(private readonly userRepository: UsersRepository) {}
 
   async create(createUserDto: CreateUserDto) {
@@ -25,6 +26,9 @@ export class UsersService {
     };
 
     const savedUser = await this.userRepository.create(newUser);
+
+    this.logger.log(`created user with id: ${savedUser._id}`);
+    
     return UserMapper.toUserDto(savedUser);
   }
 }
