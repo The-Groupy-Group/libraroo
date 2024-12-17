@@ -6,7 +6,7 @@ import { UsersRepository } from './users.repository';
 
 @Injectable()
 export class UsersService {
-  logger: Logger = new Logger(UsersService.name);
+  private logger: Logger = new Logger(UsersService.name);
   constructor(private readonly userRepository: UsersRepository) {}
 
   async create(createUserDto: CreateUserDto) {

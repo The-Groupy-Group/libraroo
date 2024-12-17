@@ -9,7 +9,7 @@ import { JwtPayLoad } from '../shared/jwt/jwt-payload';
 
 @Injectable()
 export class AuthService {
-  logger: Logger = new Logger(AuthService.name);
+  private logger: Logger = new Logger(AuthService.name);
   constructor(
     private readonly usersRepository: UsersRepository,
     private readonly jwtService: JwtService,

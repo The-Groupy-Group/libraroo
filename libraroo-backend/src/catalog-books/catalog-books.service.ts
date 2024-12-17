@@ -9,7 +9,7 @@ import { QueryCatalogBookDto } from './dto/query-catalog-book.dto';
 
 @Injectable()
 export class CatalogBooksService {
-  logger: Logger = new Logger(CatalogBooksService.name);
+  private logger: Logger = new Logger(CatalogBooksService.name);
 
   constructor(
     private readonly catalogBookRepository: CatalogBooksRepository,
