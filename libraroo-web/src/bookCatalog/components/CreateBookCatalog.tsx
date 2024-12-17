@@ -27,7 +27,7 @@ export const CreateBookCatalog: React.FC = () => {
 
       navigate("/book-catalog/list");
     } catch (err) {
-      let error = await Utils.getErrorMessage(err as Error);
+      const error = await Utils.getErrorMessage(err as Error);
       setError(error);
     } finally {
       setLoading(false);
