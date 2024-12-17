@@ -31,7 +31,7 @@ export const Register: React.FC = () => {
       //await UsersService.login(email, password);
 
       navigate("/");
-    } catch (err: any) {
+    } catch {
       setError("Invalid email or password");
     } finally {
       setLoading(false);

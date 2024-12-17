@@ -3,7 +3,7 @@ import { isAxiosError } from "axios";
 export class Utils {
 
 
-  static async getErrorMessage(err: any) {
+  static async getErrorMessage(err: Error) {
     let message = "";
 
     if (isAxiosError(err)) {
@@ -25,7 +25,6 @@ export class Utils {
     }
 
     return message;
-    
   }
 }
 

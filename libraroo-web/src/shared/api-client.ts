@@ -37,7 +37,7 @@ axiosInstance.interceptors.response.use((response) => {
   return response;
 });
 
-function convertDates(obj: any) {
+function convertDates(obj: Record<string, any>) {
   if (obj === null || obj === undefined || typeof obj !== "object") return;
 
   for (const key of Object.keys(obj)) {
