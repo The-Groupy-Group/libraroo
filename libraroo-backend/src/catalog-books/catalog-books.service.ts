@@ -66,7 +66,7 @@ export class CatalogBooksService {
       const isTitleMatch =
         title.toLowerCase() === createCatalogBookDto.title.toLowerCase();
 
-      return isAuthorMatch && isTitleMatch;
+      return isAuthorMatch && isTitleMatch &&book.volumeInfo!=undefined&&book.volumeInfo.imageLinks!=undefined&&book.volumeInfo.imageLinks.thumbnail!=undefined;
     });
   }
 
