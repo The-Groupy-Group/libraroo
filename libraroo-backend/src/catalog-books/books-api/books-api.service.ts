@@ -3,7 +3,7 @@ import { HttpService } from '@nestjs/axios';
 import { BooksApiResponse } from './types/books-api.types';
 import { firstValueFrom } from 'rxjs';
 
-const MAX_PAGINATION = 40;//the api's limit
+const MAX_PAGINATION = 40; //the api's limit
 @Injectable()
 export class BooksApiService {
   key: string;
@@ -23,8 +23,7 @@ export class BooksApiService {
         this.httpService.get<BooksApiResponse>(route),
       );
       return res.data;
-    } catch (error) {
-      console.log(error);
+    } catch {
       throw new InternalServerErrorException('Something went wrong');
     }
   }

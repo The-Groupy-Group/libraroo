@@ -21,12 +21,12 @@ export class CatalogBooksRepository extends BaseRepository<CatalogBook> {
     title: string,
     language: string,
   ): Promise<CatalogBook | null> {
-    const authorFilter = this.getCaseInsensitiveRegexPattern(author);
+    const authorFilter =this.getCaseInsensitiveRegexPattern(author);
     const titleFilter = this.getCaseInsensitiveRegexPattern(title);
     const languageFilter =
       this.getCaseInsensitiveSubStringRegexPattern(language);
     const filter: FilterQuery<CatalogBookDocument> = {
-      author: authorFilter,
+      authors: authorFilter,
       title: titleFilter,
       language: languageFilter,
     };
@@ -45,13 +45,19 @@ export class CatalogBooksRepository extends BaseRepository<CatalogBook> {
     return this.findAll(queryOptions);
   }
 
-  
   private createQueryFilter(
     queries: QueryCatalogBookDto,
   ): FilterQuery<CatalogBook> {
-    const authorFilter = queries.author
-      ? this.getCaseInsensitiveSubStringRegexPattern(queries.author)
-      : undefined;
+    const authorFilter =
+      queries.authors && queries.authors.length > 0
+        ? {
+            authors: {
+              $in: queries.authors.map((author) =>
+                this.getCaseInsensitiveSubStringRegexPattern(author),
+              ),
+            },
+          }
+        : undefined;
 
     const titleFilter = queries.title
       ? this.getCaseInsensitiveSubStringRegexPattern(queries.title)
@@ -73,7 +79,7 @@ export class CatalogBooksRepository extends BaseRepository<CatalogBook> {
         : undefined;
 
     const filter: FilterQuery<CatalogBook> = {};
-    if (authorFilter !== undefined) filter.author = authorFilter;
+    if (authorFilter !== undefined) filter.authors = authorFilter;
     if (titleFilter !== undefined) filter.title = titleFilter;
     if (languageFilter !== undefined) filter.language = languageFilter;
     if (categoriesFilter !== undefined)
