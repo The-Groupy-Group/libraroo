@@ -37,7 +37,8 @@ axiosInstance.interceptors.response.use((response) => {
   return response;
 });
 
-function convertDates(obj: Record<string, any>) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function convertDates(obj: any): void {
   if (obj === null || obj === undefined || typeof obj !== "object") return;
 
   for (const key of Object.keys(obj)) {

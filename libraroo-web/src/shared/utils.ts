@@ -1,8 +1,6 @@
 import { isAxiosError } from "axios";
 
 export class Utils {
-
-
   static async getErrorMessage(err: Error) {
     let message = "";
 
