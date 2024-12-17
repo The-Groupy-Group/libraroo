@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import bookCatalogService from "../services/bookCatalog.service";
 import { Alert, Box, Button, Container, TextField } from "@mui/material";
-import { isAxiosError } from "axios";
 import { Utils } from "../../shared/utils";
 
 export const CreateBookCatalog: React.FC = () => {
@@ -26,9 +25,9 @@ export const CreateBookCatalog: React.FC = () => {
         language,
       });
 
-      // TODO : Navigate to book catalog list screen.
-    } catch (err: any) {
-      var error = await Utils.getErrorMessage(err);
+      navigate("/book-catalog/list");
+    } catch (err) {
+      const error = await Utils.getErrorMessage(err as Error);
       setError(error);
     } finally {
       setLoading(false);
