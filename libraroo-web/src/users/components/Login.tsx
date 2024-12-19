@@ -26,7 +26,7 @@ const Login: React.FC = () => {
       await UsersService.login(email, password);
 
       navigate("/"); // Redirect after login
-    } catch (err: any) {
+    } catch {
       setError("Invalid email or password");
     } finally {
       setLoading(false);
