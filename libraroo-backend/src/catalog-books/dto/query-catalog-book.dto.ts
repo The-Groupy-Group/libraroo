@@ -1,7 +1,8 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
+import { PaginationDto } from 'src/shared/models/pagination.dto';
 
-export class QueryCatalogBookDto {
+export class QueryCatalogBookDto extends PaginationDto{
   @IsOptional()
   @IsString()
   @ApiPropertyOptional({ type: String, description: 'Author of the book' })
@@ -25,19 +26,5 @@ export class QueryCatalogBookDto {
   @ApiPropertyOptional({ type: String, description: 'Title of the book' })
   title?: string;
 
-  @IsOptional()
-  @IsNumber()
-  @ApiPropertyOptional({
-    type: Number,
-    description: 'Start index for pagination',
-  })
-  startIndex?: number;
 
-  @IsOptional()
-  @IsNumber()
-  @ApiPropertyOptional({
-    type: Number,
-    description: 'Maximum number of results to return',
-  })
-  maxResults?: number;
 }
