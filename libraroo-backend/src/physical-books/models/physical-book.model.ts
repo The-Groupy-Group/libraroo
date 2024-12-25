@@ -1,8 +1,33 @@
-import { Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Types, Document } from 'mongoose';
 
 @Schema()
 export class PhysicalBook {
   _id: string;
+
+  @Prop({
+    type: [{ type: Types.ObjectId, ref: 'CatalogBook' }],
+    required: true,
+  })
+  catalogId: Types.ObjectId;
+
+  @Prop({
+    type: [{ type: Types.ObjectId, ref: 'User' }],
+    required: true,
+  })
+  ownerId: Types.ObjectId;
+
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'User' }], required: true })
+  CurrentBorrowerId: Types.ObjectId;
+
+  @Prop({ required: true })
+  image: string;
+
+  @Prop({ required: true })
+  coverType: string;
+
+  @Prop({ required: true })
+  description: string;
 }
 
 export type PhysicalBookDocument = PhysicalBook & Document;
