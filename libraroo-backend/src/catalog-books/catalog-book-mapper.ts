@@ -5,7 +5,7 @@ import { CatalogBook } from './models/catalog-book.model';
 export class CatalogBookMapper {
   static toCatalogBookDto(catalogBook: CatalogBook): CatalogBookDto {
     return {
-      id: catalogBook._id,
+      id: catalogBook._id.toString(),
       authors: catalogBook.authors,
       title: catalogBook.title,
       language: catalogBook.language,

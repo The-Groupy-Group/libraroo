@@ -3,7 +3,7 @@ import { Types, Document } from 'mongoose';
 
 @Schema()
 export class PhysicalBook {
-  _id: string;
+  _id: Types.ObjectId;
 
   @Prop({
     type: [{ type: Types.ObjectId, ref: 'CatalogBook', required: true }],

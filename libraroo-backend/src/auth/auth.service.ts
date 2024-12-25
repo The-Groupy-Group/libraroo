@@ -26,7 +26,7 @@ export class AuthService {
 
     this.logger.log(`user with id: ${user._id} authenticated successfully`);
 
-    return new LoginResponseDto(accessToken, user._id);
+    return new LoginResponseDto(accessToken, user._id.toString());
   }
 
   private async validatePassword(
@@ -38,7 +38,7 @@ export class AuthService {
 
   private async createToken(user: User): Promise<string> {
     const tokenPayload: JwtPayLoad = {
-      sub: user._id,
+      sub: user._id.toString(),
       email: user.email,
     };
     return await this.jwtService.signAsync(tokenPayload);

@@ -1,9 +1,9 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 @Schema()
 export class CatalogBook {
-  _id: string;
+  _id: Types.ObjectId;
 
   @Prop({ required: true })
   authors: string[];

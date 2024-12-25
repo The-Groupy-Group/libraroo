@@ -3,7 +3,7 @@ import { Types, Document } from 'mongoose';
 
 @Schema()
 export class User {
-  _id: string;
+  _id: Types.ObjectId;
 
   @Prop({ required: true, unique: true })
   email: string;
