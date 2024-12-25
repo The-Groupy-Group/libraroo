@@ -6,13 +6,13 @@ export class PhysicalBook {
   _id: string;
 
   @Prop({
-    type: [{ type: Types.ObjectId, ref: 'CatalogBook' }],
+    type: [{ type: Types.ObjectId, ref: 'CatalogBook', required: true }],
     required: true,
   })
   catalogId: Types.ObjectId;
 
   @Prop({
-    type: [{ type: Types.ObjectId, ref: 'User' }],
+    type: [{ type: Types.ObjectId, ref: 'User', required: true }],
     required: true,
   })
   ownerId: Types.ObjectId;
