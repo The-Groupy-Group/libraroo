@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Types, Document } from 'mongoose';
+import { cover } from './cover';
 
 @Schema()
 export class PhysicalBook {
@@ -9,7 +10,7 @@ export class PhysicalBook {
     type: [{ type: Types.ObjectId, ref: 'CatalogBook', required: true }],
     required: true,
   })
-  catalogId: Types.ObjectId;
+  bookCatalogId: Types.ObjectId;
 
   @Prop({
     type: [{ type: Types.ObjectId, ref: 'User', required: true }],
@@ -17,14 +18,14 @@ export class PhysicalBook {
   })
   ownerId: Types.ObjectId;
 
-  @Prop({ type: [{ type: Types.ObjectId, ref: 'User' }], required: true })
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'User' }] })
   CurrentBorrowerId: Types.ObjectId;
 
   @Prop({ required: true })
-  image: string;
+  images: string[];
 
   @Prop({ required: true })
-  coverType: string;
+  cover: cover;
 
   @Prop({ required: true })
   description: string;
@@ -33,3 +34,5 @@ export class PhysicalBook {
 export type PhysicalBookDocument = PhysicalBook & Document;
 
 export const PhysicalBookSchema = SchemaFactory.createForClass(PhysicalBook);
+
+export { cover };
