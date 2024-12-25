@@ -84,8 +84,8 @@ describe('CatalogBooksService', () => {
         CatalogBookMapper.toCatalogBookDto(existingBook),
       );
     });
-  });
-  describe('create', () => {
+
+
     it('should return CatalogBook model if catalog book already exists', async () => {
       const createCatalogBookDto: CreateCatalogBookDto = {
         author: 'Karen Armstrong',

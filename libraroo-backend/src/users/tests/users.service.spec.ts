@@ -24,7 +24,6 @@ describe('UsersService', () => {
           provide: UsersRepository,
           useValue: repositoryMock,
         },
-        UserMapper,
       ],
     }).compile();
 
