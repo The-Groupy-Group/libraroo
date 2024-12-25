@@ -17,7 +17,7 @@ export class CatalogBookMapper {
   static toCatalogBookDb(book: BookItem): Partial<CatalogBook> {
     return {
       authors: book.volumeInfo.authors,
-      title: book.volumeInfo.title,
+      title: `${book.volumeInfo.title} ${book.volumeInfo.subtitle}`,
       imageUrl: book.volumeInfo.imageLinks.thumbnail,
       categories: book.volumeInfo.categories,
       language: book.volumeInfo.language,

@@ -136,6 +136,7 @@ describe('CatalogBooksService', () => {
             volumeInfo: {
               title: 'Jerusalem',
               authors: ['Karen Armstrong'],
+              subtitle:'Maor',
               language: 'en',
               categories: ['History'],
               imageLinks: {
@@ -155,7 +156,7 @@ describe('CatalogBooksService', () => {
 
       expect(catalogBooksRepository.create).toHaveBeenCalledWith({
         authors: books.items[0].volumeInfo.authors,
-        title: books.items[0].volumeInfo.title,
+        title: `${books.items[0].volumeInfo.title} ${books.items[0].volumeInfo.subtitle}`,
         language: books.items[0].volumeInfo.language,
         imageUrl: books.items[0].volumeInfo.imageLinks.thumbnail,
         categories: books.items[0].volumeInfo.categories,

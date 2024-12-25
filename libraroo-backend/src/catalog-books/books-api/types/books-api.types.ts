@@ -1,5 +1,6 @@
 export interface VolumeInfo {
   title: string;
+  subtitle?:string;
   authors: string[];
   language: string;
   imageLinks?: {
