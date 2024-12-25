@@ -1,7 +1,8 @@
 import { FilterQuery } from 'mongoose';
-import { PaginationDto } from './pagination.dto';
 
-export class QueryOptions<T> extends PaginationDto{
+export class QueryOptions<T> {
+  maxResults: number = 10;
+  startIndex: number = 0;
   sort?: { [key: string]: 1 | -1 };
   filter?: FilterQuery<T>;
 }
