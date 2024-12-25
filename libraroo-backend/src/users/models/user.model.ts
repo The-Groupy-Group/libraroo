@@ -1,6 +1,5 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Types, Document } from 'mongoose';
-import { PhysicalBook } from '../../physical-books/models/physical-book.model';
 
 @Schema()
 export class User {
@@ -21,7 +20,7 @@ export class User {
   @Prop({ required: true })
   address: string;
 
-  @Prop({ type: [{ type: Types.ObjectId, ref: PhysicalBook.name }] })
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'PhysicalBook' }] })
   ownedBooksList: Types.ObjectId[];
 }
 
