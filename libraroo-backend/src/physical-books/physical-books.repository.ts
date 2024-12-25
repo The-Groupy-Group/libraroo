@@ -8,7 +8,7 @@ import { Model } from 'mongoose';
 import { BaseRepository } from '../shared/db/base.repository';
 
 @Injectable()
-export class PhysicalBooksRepositroy extends BaseRepository<PhysicalBook> {
+export class PhysicalBooksRepository extends BaseRepository<PhysicalBook> {
   constructor(
     @InjectModel(PhysicalBook.name)
     private physicalBookModel: Model<PhysicalBookDocument>,

@@ -3,7 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { PhysicalBook, PhysicalBookSchema } from './models/physical-book.model';
 import { PhysicalBooksService } from './physical-books.service';
 import { PhysicalBooksController } from './physical-books.controller';
-import { PhysicalBooksRepositroy } from './physical-books.repository';
+import { PhysicalBooksRepository } from './physical-books.repository';
 
 @Module({
   imports: [
@@ -11,7 +11,7 @@ import { PhysicalBooksRepositroy } from './physical-books.repository';
       { name: PhysicalBook.name, schema: PhysicalBookSchema },
     ]),
   ],
-  providers: [PhysicalBooksService, PhysicalBooksRepositroy],
+  providers: [PhysicalBooksService, PhysicalBooksRepository],
   controllers: [PhysicalBooksController],
 })
 export class PhysicalBookModule {}
