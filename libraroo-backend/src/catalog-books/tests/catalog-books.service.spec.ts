@@ -117,13 +117,13 @@ describe('CatalogBooksService', () => {
     it('should create and return CatalogBook model if catalog book doesnt exist', async () => {
       const createCatalogBookDto: CreateCatalogBookDto = {
         author: 'Karen Armstrong',
-        title: 'Jerusalem',
+        title: 'Jerusalem Maor',
         language: 'en',
       };
       const savedBook: CatalogBook = {
         _id: '123',
         authors: ['Karen Armstrong'],
-        title: 'Jerusalem',
+        title: 'Jerusalem Maor',
         language: 'en',
         imageUrl:
           'http://books.google.com/books/content?id=TZltAAAAMAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api',
@@ -156,7 +156,9 @@ describe('CatalogBooksService', () => {
 
       expect(catalogBooksRepository.create).toHaveBeenCalledWith({
         authors: books.items[0].volumeInfo.authors,
-        title: `${books.items[0].volumeInfo.title} ${books.items[0].volumeInfo.subtitle}`,
+        title:books.items[0].volumeInfo.subtitle
+        ? `${books.items[0].volumeInfo.title} ${books.items[0].volumeInfo.subtitle}`
+        : books.items[0].volumeInfo.title,
         language: books.items[0].volumeInfo.language,
         imageUrl: books.items[0].volumeInfo.imageLinks.thumbnail,
         categories: books.items[0].volumeInfo.categories,
