@@ -1,5 +1,4 @@
 import { Alert, Box, Button, Container, TextField } from "@mui/material";
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UsersService from "../services/users.service";
@@ -32,7 +31,7 @@ export const Register: React.FC = () => {
       //await UsersService.login(email, password);
 
       navigate("/");
-    } catch (err: any) {
+    } catch {
       setError("Invalid email or password");
     } finally {
       setLoading(false);
