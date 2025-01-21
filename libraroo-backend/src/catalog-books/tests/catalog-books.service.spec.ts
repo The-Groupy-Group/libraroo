@@ -12,6 +12,7 @@ import {
 import { BooksApiResponse } from '../books-api/types/books-api.types';
 import { QueryCatalogBookDto } from '../dto/query-catalog-book.dto';
 import { CatalogBookDto } from '../dto/catalog-book.dto';
+import mongoose from 'mongoose';
 
 describe('CatalogBooksService', () => {
   let service: CatalogBooksService;
@@ -62,7 +63,7 @@ describe('CatalogBooksService', () => {
         language: 'en',
       };
       const existingBook: CatalogBook = {
-        _id: '123',
+        _id: new mongoose.Types.ObjectId(),
         authors: ['Karen Armstrong'],
         title: 'Jerusalem',
         language: 'en',
@@ -83,8 +84,8 @@ describe('CatalogBooksService', () => {
         CatalogBookMapper.toCatalogBookDto(existingBook),
       );
     });
-  });
-  describe('create', () => {
+
+
     it('should return CatalogBook model if catalog book already exists', async () => {
       const createCatalogBookDto: CreateCatalogBookDto = {
         author: 'Karen Armstrong',
@@ -92,7 +93,7 @@ describe('CatalogBooksService', () => {
         language: 'en',
       };
       const existingBook: CatalogBook = {
-        _id: '123',
+        _id: new mongoose.Types.ObjectId(),
         authors: ['Karen Armstrong'],
         title: 'Jerusalem',
         language: 'en',
@@ -121,7 +122,7 @@ describe('CatalogBooksService', () => {
         language: 'en',
       };
       const savedBook: CatalogBook = {
-        _id: '123',
+        _id: new mongoose.Types.ObjectId(),
         authors: ['Karen Armstrong'],
         title: 'Jerusalem Maor',
         language: 'en',
@@ -216,7 +217,7 @@ describe('CatalogBooksService', () => {
       };
       const mockBooks: CatalogBook[] = [
         {
-          _id: '1',
+          _id: new mongoose.Types.ObjectId(),
           authors: ['Karen Armstrong'],
           title: 'Jerusalem',
           language: 'en',

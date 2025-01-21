@@ -7,6 +7,7 @@ import { LoginResponseDto } from '../dto/login-response.dto';
 import { User } from '../../users/models/user.model';
 import * as bcrypt from 'bcrypt';
 import { BadRequestException } from '@nestjs/common';
+import mongoose from 'mongoose';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -50,7 +51,7 @@ describe('AuthService', () => {
       const existingUser: User = {
         email: 'Donfil@gmail.com',
         passwordHash: '123421',
-        _id: '123',
+       _id: new mongoose.Types.ObjectId(),
         firstName: 'don',
         lastName: 'fil',
         address: 'Haondfil13',
@@ -74,7 +75,7 @@ describe('AuthService', () => {
     const existingUser: User = {
       email: 'Donfil@gmail.com',
       passwordHash: '123421',
-      _id: '123',
+      _id: new mongoose.Types.ObjectId(),
       firstName: 'don',
       lastName: 'fil',
       address: 'Haondfil13',

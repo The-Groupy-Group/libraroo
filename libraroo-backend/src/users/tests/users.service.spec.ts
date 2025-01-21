@@ -5,6 +5,7 @@ import { CreateUserDto } from '../dto/create-user.dto';
 import { UsersRepository } from '../users.repository';
 import { User } from '../models/user.model';
 import { UserMapper } from '../user-mapper';
+import mongoose from 'mongoose';
 
 describe('UsersService', () => {
   let service: UsersService;
@@ -63,7 +64,7 @@ describe('UsersService', () => {
       };
 
       const createdUser: User = {
-        _id: '123',
+        _id: new mongoose.Types.ObjectId(),
         firstName: createUserDto.firstName,
         lastName: createUserDto.lastName,
         email: createUserDto.email,
