@@ -62,8 +62,9 @@ export class CatalogBooksService {
     createCatalogBookDto: CreateCatalogBookDto,
   ): BookItem {
     return books.find((book: BookItem) => {
-      const authors = book.volumeInfo.authors || [];
-      const title = book.volumeInfo.title || '';
+      const mappedBook=CatalogBookMapper.toCatalogBookDb(book);
+      const authors = mappedBook.authors || [];
+      const title = mappedBook.title || '';
       const isAuthorMatch = authors.some(
         (author: string) =>
           author.toLowerCase() === createCatalogBookDto.author.toLowerCase(),
